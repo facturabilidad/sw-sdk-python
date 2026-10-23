@@ -1,59 +1,81 @@
 import unittest
 import os
-import json
 import sys
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
 sys.path.append(PROJECT_ROOT)
 
+from Test import config
+from Test.base import SdkTestCase
 from Cancelation.Cancelation import Cancelation
 
-class TestCancelation(unittest.TestCase):
-    expected = "success"
-    @staticmethod
-    def open_file(pathFile):
-        out = open(pathFile, "r", encoding='ansi', errors='ignore').read()
-        return out
-    
+class TestCancelation(SdkTestCase):
+    passwordCsd = config.PASSWORD_CSD
+    rfc = config.RFC
+    uuidCfdi = config.UUID_CANCELACION
+
+    #UT Cancelación
     def testCancelXml_auth(self):
-        cancel = Cancelation("http://services.test.sw.com.mx", None, os.environ["SDKTEST_USER"], os.environ["SDKTEST_PASSWORD"])
-        response = cancel.CancelXml(TestCancelation.open_file("Test/resources/cancelByXml.xml"))
+        cancel = Cancelation(self.url, None, self.user, self.password)
+        response = cancel.cancel_xml(TestCancelation.open_file("Test/resources/cancelByXml.xml"))
         self.assertTrue(self.expected == response.get_status())
         
     def testCancelXml(self):
-        cancel = Cancelation("http://services.test.sw.com.mx", os.environ["SDKTEST_TOKEN"])
-        response = cancel.CancelXml(TestCancelation.open_file("Test/resources/cancelByXml.xml"))
+        cancel = Cancelation(self.url, self.token)
+        response = cancel.cancel_xml(TestCancelation.open_file("Test/resources/cancelByXml.xml"))
         self.assertTrue(self.expected == response.get_status())
     
     def testCancelCsd_auth(self):
-        cancel = Cancelation("http://services.test.sw.com.mx", None, os.environ["SDKTEST_USER"], os.environ["SDKTEST_PASSWORD"])
-        response = cancel.CancelCsd("3dda215e-4c77-4923-94a1-627e0a04378c", "EKU9003173C9", TestCancelation.open_file("Test/resources/b64CSD.txt"), TestCancelation.open_file("Test/resources/b64Key.txt"),"12345678a", "02", "")
+        cancel = Cancelation(self.url, None, self.user, self.password)
+        response = cancel.cancel_csd(self.uuidCfdi, self.rfc, TestCancelation.open_file("Test/resources/b64CSD.txt"), TestCancelation.open_file("Test/resources/b64Key.txt"),self.passwordCsd, "02", "")
         self.assertTrue(self.expected == response.get_status())
 
     def testCancelCsd(self):
-        cancel = Cancelation("http://services.test.sw.com.mx", os.environ["SDKTEST_TOKEN"])
-        response = cancel.CancelCsd("3dda215e-4c77-4923-94a1-627e0a04378c", "EKU9003173C9", TestCancelation.open_file("Test/resources/b64CSD.txt"), TestCancelation.open_file("Test/resources/b64Key.txt"),"12345678a", "02", "")
+        cancel = Cancelation(self.url, self.token)
+        response = cancel.cancel_csd(self.uuidCfdi, self.rfc, TestCancelation.open_file("Test/resources/b64CSD.txt"), TestCancelation.open_file("Test/resources/b64Key.txt"),self.passwordCsd, "02", "")
         self.assertTrue(self.expected == response.get_status())
         
     def testCancelPfx_auth(self):
-        cancel = Cancelation("http://services.test.sw.com.mx", None, os.environ["SDKTEST_USER"], os.environ["SDKTEST_PASSWORD"])
-        response = cancel.CancelPfx("3dda215e-4c77-4923-94a1-627e0a04378c", "EKU9003173C9", TestCancelation.open_file("Test/resources/b64PFX.txt"), "12345678a", "02", "")
+        cancel = Cancelation(self.url, None, self.user, self.password)
+        response = cancel.cancel_pfx(self.uuidCfdi, self.rfc, TestCancelation.open_file("Test/resources/b64Pfx.txt"), self.passwordCsd, "02", "")
         self.assertTrue(self.expected == response.get_status())
 
     def testCancelPfx(self):
-        cancel = Cancelation("http://services.test.sw.com.mx", os.environ["SDKTEST_TOKEN"])
-        response = cancel.CancelPfx("3dda215e-4c77-4923-94a1-627e0a04378c", "EKU9003173C9", TestCancelation.open_file("Test/resources/b64PFX.txt"), "12345678a", "02", "")
+        cancel = Cancelation(self.url, self.token)
+        response = cancel.cancel_pfx(self.uuidCfdi, self.rfc, TestCancelation.open_file("Test/resources/b64Pfx.txt"), self.passwordCsd, "02", "")
         self.assertTrue(self.expected == response.get_status())
     
     def testCancelUuid_auth(self):
-        cancel = Cancelation("http://services.test.sw.com.mx", None, os.environ["SDKTEST_USER"], os.environ["SDKTEST_PASSWORD"])
-        response = cancel.CancelUuid("3dda215e-4c77-4923-94a1-627e0a04378c", "EKU9003173C9", "02", "")
+        cancel = Cancelation(self.url, None, self.user, self.password)
+        response = cancel.cancel_uuid(self.uuidCfdi, self.rfc, "02", "")
         self.assertTrue(self.expected == response.get_status())
     
     def testCancelUuid(self):
-        cancel = Cancelation("http://services.test.sw.com.mx", os.environ["SDKTEST_TOKEN"])
-        response = cancel.CancelUuid("3dda215e-4c77-4923-94a1-627e0a04378c", "EKU9003173C9", "02", "")
+        cancel = Cancelation(self.url, self.token)
+        response = cancel.cancel_uuid(self.uuidCfdi, self.rfc, "02", "")
         self.assertTrue(self.expected == response.get_status())
 
-suite = unittest.TestLoader().loadTestsFromTestCase(TestCancelation)
-unittest.TextTestRunner(verbosity=2).run(suite)
+    #UT de Error
+    def testCancelUuid_invalidToken(self):
+        cancel = Cancelation(self.url, "token-invalido")
+        response = cancel.cancel_uuid(self.uuidCfdi, self.rfc, "02", "")
+        self.assertTrue(self.expectedError == response.get_status())
+        self.assertTrue(401 == response.get_status_code())
+        self.assertIsNotNone(response.get_message())
+
+    def testCancelCsd_withoutPassword(self):
+        cancel = Cancelation(self.url, self.token)
+        response = cancel.cancel_csd(self.uuidCfdi, self.rfc, TestCancelation.open_file("Test/resources/b64CSD.txt"), TestCancelation.open_file("Test/resources/b64Key.txt"), "", "02", "")
+        self.assertTrue(self.expectedError == response.get_status())
+        self.assertTrue(400 == response.get_status_code())
+        self.assertIsNotNone(response.get_message_detail())
+
+    #UT de Configuración
+    def testCancel_withoutCredentials(self):
+        with self.assertRaises(ValueError):
+            Cancelation(self.url)
+
+if __name__ == '__main__':
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestCancelation)
+    result = unittest.TextTestRunner(verbosity=2).run(suite)
+    sys.exit(not result.wasSuccessful())

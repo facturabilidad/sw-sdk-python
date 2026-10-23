@@ -1,8 +1,9 @@
 import json
-import traceback
 from Utils.response import Response
 
 class AccountUserResponse(Response):
+    meta = None
+    links = None
     def __init__(self, response):
         try:
             self.status_code = response.status_code
@@ -13,14 +14,16 @@ class AccountUserResponse(Response):
                         self.data = DataItem(self.response["data"])
                     elif isinstance(self.response["data"], list):
                         self.data = DataList(self.response["data"])
-                    elif isinstance(self.response["data"], str):
+                    else:
                         self.data = self.response["data"]
+                    self.meta = self.response.get("meta")
+                    self.links = self.response.get("links")
                     self.status = self.response["status"]
                 else:
                     self.status = self.response["status"]
                     self.message = self.response["message"]
                     if "messageDetail" in self.response:
-                        self.messageDetail = self.response["messageDetail"]
+                        self.message_detail = self.response["messageDetail"]
             elif self.status_code == 204:
                     self.status = "success"
                     self.status_code = 200
@@ -28,10 +31,17 @@ class AccountUserResponse(Response):
             else:
                 self.status = "error"
                 self.message = response.reason
-                self.messageDetail = response.request
-        except Exception:
-            traceback.print_exc()
-            
+                self.message_detail = response.request
+        except Exception as error:
+            self.set_unreadable(response, error)
+
+    def get_meta(self):
+        return self.meta
+
+    def get_links(self):
+        return self.links
+
+
 class DataItem:
     def __init__(self, data):
         self.idUser = data.get("idUser", "")

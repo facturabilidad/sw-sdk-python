@@ -1,49 +1,65 @@
 import unittest
 import os
-import json
 import sys
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
 sys.path.append(PROJECT_ROOT)
 
-from Cancelation_Retentions.CancelationRetentions import CancelationRetentions
+from Test import config
+from Test.base import SdkTestCase
+from CancelationRetentions.CancelationRetentions import CancelationRetentions
 
-class TestCancelationRetentions(unittest.TestCase):
-    expected = "success"
-    @staticmethod
-    def open_file(pathFile):
-        out = open(pathFile, "r", encoding='ansi', errors='ignore').read()
-        return out
-    
-    def testCancelaUno_auth(self):
-        cancel = CancelationRetentions("http://services.test.sw.com.mx", None, os.environ["SDKTEST_USER"], os.environ["SDKTEST_PASSWORD"])
-        response = cancel.CancelaUno(TestCancelationRetentions.open_file("Test/resources/cancelRetByXml.xml"))
+class TestCancelationRetentions(SdkTestCase):
+    passwordCsd = config.PASSWORD_CSD
+    rfc = config.RFC
+    uuidCfdi = config.UUID_CANCELACION_RETENCION
+
+    def testCancelXml_auth(self):
+        cancel = CancelationRetentions(self.url, None, self.user, self.password)
+        response = cancel.cancel_xml(TestCancelationRetentions.open_file("Test/resources/cancelRetByXml.xml"))
         self.assertTrue(self.expected == response.get_status())
         
-    def testCancelaUno(self):
-        cancel = CancelationRetentions("http://services.test.sw.com.mx", os.environ["SDKTEST_TOKEN"])
-        response = cancel.CancelaUno(TestCancelationRetentions.open_file("Test/resources/cancelRetByXml.xml"))
+    def testCancelXml(self):
+        cancel = CancelationRetentions(self.url, self.token)
+        response = cancel.cancel_xml(TestCancelationRetentions.open_file("Test/resources/cancelRetByXml.xml"))
         self.assertTrue(self.expected == response.get_status())
     
-    def testCancelaUnoCSD_auth(self):
-        cancel = CancelationRetentions("http://services.test.sw.com.mx", None, os.environ["SDKTEST_USER"], os.environ["SDKTEST_PASSWORD"])
-        response = cancel.CancelaUnoCSD("578052ce-710f-4d0b-9ffc-6ca73daf92a5", "EKU9003173C9", TestCancelationRetentions.open_file("Test/resources/b64CSD.txt"), TestCancelationRetentions.open_file("Test/resources/b64Key.txt"),"12345678a", "02", "")
+    def testCancelCsd_auth(self):
+        cancel = CancelationRetentions(self.url, None, self.user, self.password)
+        response = cancel.cancel_csd(self.uuidCfdi, self.rfc, TestCancelationRetentions.open_file("Test/resources/b64CSD.txt"), TestCancelationRetentions.open_file("Test/resources/b64Key.txt"),self.passwordCsd, "02", "")
         self.assertTrue(self.expected == response.get_status())
 
-    def testCancelaUnoCSD(self):
-        cancel = CancelationRetentions("http://services.test.sw.com.mx", os.environ["SDKTEST_TOKEN"])
-        response = cancel.CancelaUnoCSD("578052ce-710f-4d0b-9ffc-6ca73daf92a5", "EKU9003173C9", TestCancelationRetentions.open_file("Test/resources/b64CSD.txt"), TestCancelationRetentions.open_file("Test/resources/b64Key.txt"),"12345678a", "02", "")
+    def testCancelCsd(self):
+        cancel = CancelationRetentions(self.url, self.token)
+        response = cancel.cancel_csd(self.uuidCfdi, self.rfc, TestCancelationRetentions.open_file("Test/resources/b64CSD.txt"), TestCancelationRetentions.open_file("Test/resources/b64Key.txt"),self.passwordCsd, "02", "")
         self.assertTrue(self.expected == response.get_status())
         
-    def testCancelaUnoPFX_auth(self):
-        cancel = CancelationRetentions("http://services.test.sw.com.mx", None, os.environ["SDKTEST_USER"], os.environ["SDKTEST_PASSWORD"])
-        response = cancel.CancelaUnoPFX("578052ce-710f-4d0b-9ffc-6ca73daf92a5", "EKU9003173C9", TestCancelationRetentions.open_file("Test/resources/b64Pfx.txt"), "12345678a", "02", "")
+    def testCancelPfx_auth(self):
+        cancel = CancelationRetentions(self.url, None, self.user, self.password)
+        response = cancel.cancel_pfx(self.uuidCfdi, self.rfc, TestCancelationRetentions.open_file("Test/resources/b64Pfx.txt"), self.passwordCsd, "02", "")
         self.assertTrue(self.expected == response.get_status())
 
-    def testCancelaUnoPFX(self):
-        cancel = CancelationRetentions("http://services.test.sw.com.mx", os.environ["SDKTEST_TOKEN"])
-        response = cancel.CancelaUnoPFX("578052ce-710f-4d0b-9ffc-6ca73daf92a5", "EKU9003173C9", TestCancelationRetentions.open_file("Test/resources/b64Pfx.txt"), "12345678a", "02", "")
+    def testCancelPfx(self):
+        cancel = CancelationRetentions(self.url, self.token)
+        response = cancel.cancel_pfx(self.uuidCfdi, self.rfc, TestCancelationRetentions.open_file("Test/resources/b64Pfx.txt"), self.passwordCsd, "02", "")
         self.assertTrue(self.expected == response.get_status())
 
-suite = unittest.TestLoader().loadTestsFromTestCase(TestCancelationRetentions)
-unittest.TextTestRunner(verbosity=2).run(suite)
+    #UT de Error
+    def testCancelRetentions_invalidToken(self):
+        cancel = CancelationRetentions(self.url, "token-invalido")
+        response = cancel.cancel_xml(TestCancelationRetentions.open_file("Test/resources/cancelRetByXml.xml"))
+        self.assertTrue(self.expectedError == response.get_status())
+        self.assertTrue(401 == response.get_status_code())
+        self.assertIsNotNone(response.get_message())
+
+    def testCancelCsd_withoutPassword(self):
+        cancel = CancelationRetentions(self.url, self.token)
+        response = cancel.cancel_csd(self.uuidCfdi, self.rfc, TestCancelationRetentions.open_file("Test/resources/b64CSD.txt"), TestCancelationRetentions.open_file("Test/resources/b64Key.txt"), "", "02", "")
+        self.assertTrue(self.expectedError == response.get_status())
+        self.assertTrue(400 == response.get_status_code())
+        self.assertIsNotNone(response.get_message_detail())
+
+if __name__ == '__main__':
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestCancelationRetentions)
+    result = unittest.TextTestRunner(verbosity=2).run(suite)
+    sys.exit(not result.wasSuccessful())

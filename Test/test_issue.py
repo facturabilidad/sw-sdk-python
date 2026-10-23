@@ -2,23 +2,22 @@ import unittest
 import os
 import json
 import sys
-from datetime import datetime, timedelta, UTC
+from datetime import datetime, timedelta
 import xml.etree.ElementTree as ET
 from io import BytesIO
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
 sys.path.append(PROJECT_ROOT)
 
+from Test import config
+from Test.base import SdkTestCase
+from base64 import b64encode
+
 from Issue.Issue import Issue
 
-class TestIssue(unittest.TestCase):
-    expected = "success"
-    
-    @staticmethod
-    def open_file(pathFile):
-        out = open(pathFile, "r", encoding='ansi', errors='ignore').read()
-        return out
-    
+class TestIssue(SdkTestCase):
+    codeStamped = config.CODE_STAMPED
+
     @staticmethod
     def update_date_xml(path_xml):
         ns = {"cfdi": "http://www.sat.gob.mx/cfd/4"}
@@ -26,43 +25,83 @@ class TestIssue(unittest.TestCase):
         root = tree.getroot()
         
         new_date = datetime.now() - timedelta(hours=1)
-        if "Fecha" in root.attrib:
-            root.set("Fecha", new_date.strftime("%Y-%m-%dT%H:%M:%S"))
-            ET.register_namespace("cfdi", ns["cfdi"]) 
-            xml_buffer = BytesIO()
-            tree.write(xml_buffer, encoding="utf-8", xml_declaration=True)
-            return xml_buffer.getvalue().decode("utf-8")
-        else:
-            print("No se encontró el atributo 'Fecha' en el XML.")
+        if "Fecha" not in root.attrib:
+            raise ValueError("No se encontró el atributo 'Fecha' en el XML")
+        root.set("Fecha", new_date.strftime("%Y-%m-%dT%H:%M:%S"))
+        #El servicio contesta 307 ante un comprobante idéntico a otro ya emitido, y la
+        #Fecha del CFDI solo llega al segundo: el Folio hace única cada emisión.
+        root.set("Folio", datetime.now().strftime("%H%M%S%f"))
+        ET.register_namespace("cfdi", ns["cfdi"])
+        xml_buffer = BytesIO()
+        tree.write(xml_buffer, encoding="utf-8", xml_declaration=True)
+        return xml_buffer.getvalue().decode("utf-8")
             
     @staticmethod
     def update_date_json(path_json):
         with open(path_json, "r", encoding="utf-8") as file:
             data = json.load(file)
         new_date = (datetime.now() - timedelta(hours=1)).strftime("%Y-%m-%dT%H:%M:%S")
-        if "Fecha" in data:
-            data["Fecha"] = new_date
-            return json.dumps(data, indent=2, ensure_ascii=False)
-        else:
-            print("No se encontró la clave 'Fecha' en el JSON.")
+        if "Fecha" not in data:
+            raise ValueError("No se encontró la clave 'Fecha' en el JSON")
+        data["Fecha"] = new_date
+        #El Folio hace única cada emisión, igual que en update_date_xml.
+        data["Folio"] = datetime.now().strftime("%H%M%S%f")
+        return json.dumps(data, indent=2, ensure_ascii=False)
         
+    def testIssue_auth(self):
+        xml = self.update_date_xml("Test/resources/xml40.xml")
+        issue = Issue(self.url, None, self.user, self.password)
+        response = issue.issue_v4(xml)
+        self.assertEmision(response)
+
     def testIssue(self):
-        xml_path = self.update_date_xml("Test/resources/xml40.xml")
-        issue = Issue("http://services.test.sw.com.mx", None, os.environ["SDKTEST_USER"], os.environ["SDKTEST_PASSWORD"])
-        response = issue.issue_v4(xml_path)
-        if response.get_status() == "error":
-            self.assertTrue(self.message == response.get_message())
-        else:
-            self.assertTrue(self.expected == response.get_status())
-                   
+        xml = self.update_date_xml("Test/resources/xml40.xml")
+        issue = Issue(self.url, self.token)
+        response = issue.issue_v4(xml)
+        self.assertEmision(response)
+
+    def testIssue_b64(self):
+        #El servicio también acepta el XML en base 64.
+        xml = self.update_date_xml("Test/resources/xml40.xml")
+        issue = Issue(self.url, self.token)
+        response = issue.issue_v4(b64encode(xml.encode("utf-8")).decode("utf-8"), True)
+        self.assertEmision(response)
+
+    def testIssueJson_auth(self):
+        json_content = self.update_date_json("Test/resources/cfdi.json")
+        issue = Issue(self.url, None, self.user, self.password)
+        response = issue.issue_json_v4(json_content)
+        self.assertEmision(response)
+
     def testIssueJson(self):
-        json_path = self.update_date_json("Test/resources/cfdi.json")
-        issue = Issue("http://services.test.sw.com.mx", None, os.environ["SDKTEST_USER"], os.environ["SDKTEST_PASSWORD"])
-        response = issue.issue_json_v4(json_path)
-        if response.get_status() == "error":
-            self.assertTrue(self.message == response.get_message())
+        json_content = self.update_date_json("Test/resources/cfdi.json")
+        issue = Issue(self.url, self.token)
+        response = issue.issue_json_v4(json_content)
+        self.assertEmision(response)
+
+    #UT de Error
+    def testIssue_invalidXml(self):
+        issue = Issue(self.url, self.token)
+        response = issue.issue_v4("<xml>no es un cfdi</xml>")
+        self.assertEqual(self.expectedError, response.get_status())
+        self.assertIsNotNone(response.get_message())
+
+    def testIssue_invalidToken(self):
+        issue = Issue(self.url, "token-invalido")
+        response = issue.issue_v4(self.update_date_xml("Test/resources/xml40.xml"))
+        self.assertEqual(self.expectedError, response.get_status())
+        self.assertIsNotNone(response.get_message())
+
+    def assertEmision(self, response):
+        #Reemitir el mismo comprobante responde con el timbre previo, y es un
+        #resultado válido para la prueba.
+        if response.get_status() == self.expectedError:
+            self.assertIn(self.codeStamped, response.get_message())
         else:
-            self.assertTrue(self.expected == response.get_status())
-    
-suite = unittest.TestLoader().loadTestsFromTestCase(TestIssue)
-unittest.TextTestRunner(verbosity=2).run(suite)
+            self.assertEqual(self.expected, response.get_status())
+            self.assertIsNotNone(response.get_data())
+
+if __name__ == '__main__':
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestIssue)
+    result = unittest.TextTestRunner(verbosity=2).run(suite)
+    sys.exit(not result.wasSuccessful())

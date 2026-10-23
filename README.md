@@ -15,10 +15,9 @@ Librería *Python* para el consumo de los servicios de SW sapien®.
 
 ### Compatibilidad :clipboard:
 - CFDI 4.0
-- Python 3 o superior
+- **Python 3.11 o superior**. El desarrollo y las pruebas se hacen sobre 3.14.
 
 ### Dependencias :toolbox:
-- **Python 3** o superior.
 - [Requests](http://docs.python-requests.org)
 
 ### Documentación :open_file_folder:
@@ -30,7 +29,7 @@ Librería *Python* para el consumo de los servicios de SW sapien®.
 
 Ejecutar los comandos directamente en la consola tal cual aparecen en la página de la librería requerida, por ejemplo
 
- ```py
+ ```sh
 pip install requests
 ```
 
@@ -56,7 +55,7 @@ objResponseAuth = objAuth.authentication()
 if objResponseAuth.get_status() == "error":
    print(objResponseAuth.get_status_code())
    print("\nMessage: "+ objResponseAuth.get_message())
-   print(objResponseAuth.get_messageDetail())
+   print(objResponseAuth.get_message_detail())
 else:
    print(objResponseAuth.get_status_code())
    print("\nToken: "+objResponseAuth.get_token())
@@ -105,7 +104,7 @@ response = stamp.stamp_v1(xml)
 
 if response.get_status() ==  "error":
 	print(response.get_message())
-	print(response.get_messageDetail())
+	print(response.get_message_detail())
 else:
 	print(response.get_data())
 ```
@@ -123,7 +122,7 @@ stamp = Stamp("http://services.test.sw.com.mx", "T2lYQ0t4L0R....ReplaceForRealTo
 response = stamp.stamp_v1(encoded.decode(),True)
 if response.get_status() ==  "error":
 	print(response.get_message())
-	print(response.get_messageDetail())
+	print(response.get_message_detail())
 else:
 	print(response.get_data())
 ```
@@ -162,7 +161,7 @@ issue = Issue("http://services.test.sw.com.mx", None, "user", "password")
 response = issue.issue_v1(xml)
 if response.status ==  "error":
 	print(response.get_message())
-	print(response.get_messageDetail())
+	print(response.get_message_detail())
 else:
 	print(response.get_data())
 ```
@@ -178,7 +177,7 @@ issue = Issue("http://services.test.sw.com.mx", "T2lYQ0t4L0R....ReplaceForRealTo
 response = issue.issue_v1(xml)
 if response.status ==  "error":
 	print(response.get_message())
-	print(response.get_messageDetail())
+	print(response.get_message_detail())
 else:
 	print(response.get_data())
 ```
@@ -196,7 +195,7 @@ issue = Issue("http://services.test.sw.com.mx", "T2lYQ0t4L0R....ReplaceForRealTo
 response = issue.issue_v1(encoded.decode(), True)
 if response.get_status() ==  "error":
 	print(response.get_message())
-	print(response.get_messageDetail())
+	print(response.get_message_detail())
 else:
 	print(response.get_data())
 ```
@@ -232,7 +231,7 @@ issue = Issue("http://services.test.sw.com.mx", None, "user", "password")
 response = issue.issue_json_v1(json)
 if response.get_status() ==  "error":
 	print(response.get_message())
-	print(response.get_messageDetail())
+	print(response.get_message_detail())
 else:
 	print(response.get_data())
 ```
@@ -247,7 +246,7 @@ issue = Issue("http://services.test.sw.com.mx","T2lYQ0t4L0R....ReplaceForRealTok
 response = issue.issue_json_v1(json)
 if response.get_status() ==  "error":
 	print(response.get_message())
-	print(response.get_messageDetail())
+	print(response.get_message_detail())
 else:
 	print(response.get_data())
 ```
@@ -304,11 +303,11 @@ uuid = "8D93A20F-E9EF-42CA-A2B9-2986A352DCEC"
 motivo = "02"
 foliosustitucion = ""
 objCancel = Cancelation("http://services.test.sw.com.mx", "T2lYQ0t4L0R....ReplaceForRealToken")
-objResponseCancelCSD = objCancel.CancelCsd(uuid, rfc, b64cert, b64key, cPassword, motivo, foliosustitucion)
+objResponseCancelCSD = objCancel.cancel_csd(uuid, rfc, b64cert, b64key, cPassword, motivo, foliosustitucion)
 
 if objResponseCancelCSD.get_status() ==  "error":
 	print(objResponseCancelCSD.get_message())
-	print(objResponseCancelCSD.get_messageDetail())
+	print(objResponseCancelCSD.get_message_detail())
 else:
 	print(objResponseCancelCSD.get_data())
 ```
@@ -322,11 +321,11 @@ uuid = "8D93A20F-E9EF-42CA-A2B9-2986A352DCEC"
 motivo = "01"
 foliosustitucion = "01724196-ac5a-4735-b621-e3b42bcbb459"
 objCancel = Cancelation("http://services.test.sw.com.mx", "T2lYQ0t4L0R....ReplaceForRealToken")
-objResponseCancelCSD = objCancel.CancelCsd(uuid, rfc, b64cert, b64key, cPassword, motivo, foliosustitucion)
+objResponseCancelCSD = objCancel.cancel_csd(uuid, rfc, b64cert, b64key, cPassword, motivo, foliosustitucion)
 
 if objResponseCancelCSD.get_status() ==  "error":
 	print(objResponseCancelCSD.get_message())
-	print(objResponseCancelCSD.get_messageDetail())
+	print(objResponseCancelCSD.get_message_detail())
 else:
 	print(objResponseCancelCSD.get_data())
 ```
@@ -359,11 +358,11 @@ uuid = "8D93A20F-E9EF-42CA-A2B9-2986A352DCEC"
 motivo = "02"
 foliosustitucion = ""
 objCancel = Cancelation("http://services.test.sw.com.mx", "T2lYQ0t4L0R....ReplaceForRealToken")
-objResponseCancelPfx = objCancel.CancelPfx(uuid, rfc, b64Pfx, cPassword, motivo, foliosustitucion)
+objResponseCancelPfx = objCancel.cancel_pfx(uuid, rfc, b64Pfx, cPassword, motivo, foliosustitucion)
 
 if objResponseCancelPfx .get_status() ==  "error":
 	print(objResponseCancelPfx.get_message())
-	print(objResponseCancelPfx.get_messageDetail())
+	print(objResponseCancelPfx.get_message_detail())
 else:
 	print(objResponseCancelPfx.get_data())
 ```
@@ -377,11 +376,11 @@ uuid = "8D93A20F-E9EF-42CA-A2B9-2986A352DCEC"
 motivo = "02"
 foliosustitucion = "01724196-ac5a-4735-b621-e3b42bcbb459"
 objCancel = Cancelation("http://services.test.sw.com.mx", "T2lYQ0t4L0R....ReplaceForRealToken")
-objResponseCancelPfx = objCancel.CancelPfx(uuid, rfc, b64Pfx, cPassword, motivo, foliosustitucion)
+objResponseCancelPfx = objCancel.cancel_pfx(uuid, rfc, b64Pfx, cPassword, motivo, foliosustitucion)
 
 if objResponseCancelPfx.get_status() ==  "error":
 	print(objResponseCancelPfx.get_message())
-	print(objResponseCancelPfx.get_messageDetail())
+	print(objResponseCancelPfx.get_message_detail())
 else:
 	print(objResponseCancelPfx.get_data())
 ```
@@ -449,11 +448,11 @@ from Cancelation.Cancelation import Cancelation
 #Creamos funcion para abrir nuestro archivo
 xmlCancel = open_file("file.xml")
 objCancel = Cancelation("http://services.test.sw.com.mx", "T2lYQ0t4L0R....ReplaceForRealToken")
-objResponseCancelXml  = objCancel.CancelXml(xmlCancel)
+objResponseCancelXml  = objCancel.cancel_xml(xmlCancel)
 
 if objResponseCancelXml.get_status() ==  "error":
 	print(objResponseCancelXml.get_message())
-	print(objResponseCancelXml.get_messageDetail())
+	print(objResponseCancelXml.get_message_detail())
 else:
 	print(objResponseCancelXml.get_data())
 ```
@@ -484,11 +483,11 @@ uuid = "8D93A20F-E9EF-42CA-A2B9-2986A352DCEC"
 motivo = "02"
 foliosustitucion = ""
 objCancel = Cancelation("http://services.test.sw.com.mx", "T2lYQ0t4L0R....ReplaceForRealToken")
-objResponseCancelUuid = objCancel.CancelUuid(uuid, rfc, motivo, foliosustitucion)
+objResponseCancelUuid = objCancel.cancel_uuid(uuid, rfc, motivo, foliosustitucion)
 
 if objResponseCancelUuid.get_status() ==  "error":
 	print(objResponseCancelUuid.get_message())
-	print(objResponseCancelUuid.get_messageDetail())
+	print(objResponseCancelUuid.get_message_detail())
 else:
 	print(objResponseCancelUuid.get_data())
 ```
@@ -503,11 +502,11 @@ uuid = "8D93A20F-E9EF-42CA-A2B9-2986A352DCEC"
 motivo = "01"
 foliosustitucion = "01724196-ac5a-4735-b621-e3b42bcbb459"
 objCancel = Cancelation("http://services.test.sw.com.mx", "T2lYQ0t4L0R....ReplaceForRealToken")
-objResponseCancelUuid = objCancel.CancelUuid(uuid, rfc, motivo, foliosustitucion)
+objResponseCancelUuid = objCancel.cancel_uuid(uuid, rfc, motivo, foliosustitucion)
 
 if objResponseCancelUuid.get_status() ==  "error":
 	print(objResponseCancelUuid.get_message())
-	print(objResponseCancelUuid.get_messageDetail())
+	print(objResponseCancelUuid.get_message_detail())
 else:
 	print(objResponseCancelUuid.get_data())
 ```
@@ -559,11 +558,11 @@ objResponseAccountUser = objAccountUser.create_user(name,taxId,email,stamps,isUn
 #En caso de error, obtenemos el mensaje
 if objResponseAccountUser.get_status() ==  "error":
 	print(objResponseAccountUser.get_message())
-	print(objResponseAccountUser.get_messageDetail())
+	print(objResponseAccountUser.get_message_detail())
 else:
 	#Procesamiento de la respuesta
 	for Key,Value in objResponseAccountUser.response["data"].items():
-  		print (Key,"=",Value)
+		print (Key,"=",Value)
 ```
 
 **Ejemplo de consumo de la libreria para crear un usuario mediante token**
@@ -584,11 +583,11 @@ objResponseAccountUser = objAccountUser.create_user(name,taxId,email,stamps,isUn
 #En caso de error, obtenemos el mensaje
 if objResponseAccountUser.get_status() ==  "error":
 	print(objResponseAccountUser.get_message())
-	print(objResponseAccountUser.get_messageDetail())
+	print(objResponseAccountUser.get_message_detail())
 else:
 	#Procesamiento de la respuesta
 	for Key,Value in objResponseAccountUser.response["data"].items():
-  		print (Key,"=",Value)
+		print (Key,"=",Value)
 ```
 
 :pushpin: ***NOTA:*** La contraseña debe cumplir con las siguientes politicas:
@@ -645,7 +644,7 @@ objResponseAccountUser = objAccountUser.update_user(idUser,name,taxId,notificati
 #En caso de error, obtenemos el mensaje
 if objResponseAccountUser.get_status() ==  "error":
 	print(objResponseAccountUser.get_message())
-	print(objResponseAccountUser.get_messageDetail())
+	print(objResponseAccountUser.get_message_detail())
 else:
 	#Obtenemos como Respuesta el IdUser
 	print(objResponseAccountUser.get_data())
@@ -667,7 +666,7 @@ objResponseAccountUser = objAccountUser.update_user(idUser,name,taxId,notificati
 #En caso de error, obtenemos el mensaje
 if objResponseAccountUser.get_status() ==  "error":
 	print(objResponseAccountUser.get_message())
-	print(objResponseAccountUser.get_messageDetail())
+	print(objResponseAccountUser.get_message_detail())
 else:
 	#Obtenemos como Respuesta el IdUser
 	print(objResponseAccountUser.get_data())
@@ -694,7 +693,7 @@ objResponseAccountUser = objAccountUser.delete_user(idUser)
 #En caso de error, obtenemos el mensaje
 if objResponseAccountUser.get_status() ==  "error":
 	print(objResponseAccountUser.get_message())
-	print(objResponseAccountUser.get_messageDetail())
+	print(objResponseAccountUser.get_message_detail())
 else:
 	#Obtenemos como Respuesta el IdUser
 	print(objResponseAccountUser.get_data())
@@ -711,7 +710,7 @@ objResponseAccountUser = objAccountUser.delete_user(idUser)
 #En caso de error, obtenemos el mensaje
 if objResponseAccountUser.get_status() ==  "error":
 	print(objResponseAccountUser.get_message())
-	print(objResponseAccountUser.get_messageDetail())
+	print(objResponseAccountUser.get_message_detail())
 else:
 	#Obtenemos como Respuesta el IdUser
 	print(objResponseAccountUser.get_data())
@@ -720,10 +719,17 @@ else:
 <details>
   <summary>Obtener todos los usuarios</summary>
 
-<br>Este método recibe los siguientes parametros:
+<br>La consulta regresa los usuarios asociados al token de la petición, es decir las cuentas hijas de la cuenta padre autenticada.
+
+Este método recibe los siguientes parametros:
 * Usuario y contraseña o Token de la cuenta padre.
 * Url Servicios SW
 * Url Api
+* Página a consultar, opcional
+* Número de registros por página, opcional, hasta 50
+
+> [!NOTE]
+> La consulta viene paginada. Si no se indica el tamaño de página, el servicio regresa los primeros 10 registros y en `get_meta()` se puede consultar cuántos hay en total.
 
 **Ejemplo de consumo de la libreria para obtener todos los usarios de una cuenta administradora o padre**
 ```py
@@ -731,26 +737,26 @@ else:
 from AccountUser.AccountUser import AccountUser
 
 objAccountUser = AccountUser("https://services.test.sw.com.mx","https://api.test.sw.com.mx",None,user,password)
-objResponseAccountUser = objAccountUser.getUser_all()
+objResponseAccountUser = objAccountUser.get_users()
 #En caso de error, obtenemos el mensaje
 if objResponseAccountUser.get_status() ==  "error":
 	print(objResponseAccountUser.get_message())
-	print(objResponseAccountUser.get_messageDetail())
+	print(objResponseAccountUser.get_message_detail())
 else:
 	#Obtenemos los datos de los usuarios
-	for user in response.data.items:
-        print("\tName: ",user.name)
-        print("\tIdDelear: ",user.idDealer)
-        print("\tIdUser: ",user.idUser)
-        print("\t taxId: ",user.taxId)
-        print("\t username: ",user.username)
-        print("\t email: ",user.email)
-        print("\t profile: ",user.profile)
-        print("\t isAcrtive: ",user.isActive)
-        print("\t accessToken: ",user.accessToken)
-        print("\t stamps: ",user.stamps)
-        print("\t phone: ",user.phone)
-        print("\t isUnlimited: ",user.isUnlimited)
+	for user in objResponseAccountUser.data.items:
+		print("\tName: ",user.name)
+		print("\tIdDelear: ",user.idDealer)
+		print("\tIdUser: ",user.idUser)
+		print("\t taxId: ",user.taxId)
+		print("\t username: ",user.username)
+		print("\t email: ",user.email)
+		print("\t profile: ",user.profile)
+		print("\t isAcrtive: ",user.isActive)
+		print("\t accessToken: ",user.accessToken)
+		print("\t stamps: ",user.stamps)
+		print("\t phone: ",user.phone)
+		print("\t isUnlimited: ",user.isUnlimited)
 ```
 **Ejemplo de consumo de la libreria para obtener todos los usarios de una cuenta administradora o padre mediante token**
 ```py
@@ -758,26 +764,49 @@ else:
 from AccountUser.AccountUser import AccountUser
 
 objAccountUser = AccountUser("https://services.test.sw.com.mx","https://api.test.sw.com.mx",token)
-objResponseAccountUser = objAccountUser.getUser_all()
+objResponseAccountUser = objAccountUser.get_users()
 #En caso de error, obtenemos el mensaje
 if objResponseAccountUser.get_status() ==  "error":
 	print(objResponseAccountUser.get_message())
-	print(objResponseAccountUser.get_messageDetail())
+	print(objResponseAccountUser.get_message_detail())
 else:
 	#Obtenemos los datos de los usuarios
-	for user in response.data.items:
-        print("\tName: ",user.name)
-        print("\tIdDelear: ",user.idDealer)
-        print("\tIdUser: ",user.idUser)
-        print("\t taxId: ",user.taxId)
-        print("\t username: ",user.username)
-        print("\t email: ",user.email)
-        print("\t profile: ",user.profile)
-        print("\t isAcrtive: ",user.isActive)
-        print("\t accessToken: ",user.accessToken)
-        print("\t stamps: ",user.stamps)
-        print("\t phone: ",user.phone)
-        print("\t isUnlimited: ",user.isUnlimited)
+	for user in objResponseAccountUser.data.items:
+		print("\tName: ",user.name)
+		print("\tIdDelear: ",user.idDealer)
+		print("\tIdUser: ",user.idUser)
+		print("\t taxId: ",user.taxId)
+		print("\t username: ",user.username)
+		print("\t email: ",user.email)
+		print("\t profile: ",user.profile)
+		print("\t isAcrtive: ",user.isActive)
+		print("\t accessToken: ",user.accessToken)
+		print("\t stamps: ",user.stamps)
+		print("\t phone: ",user.phone)
+		print("\t isUnlimited: ",user.isUnlimited)
+```
+
+**Ejemplo de consumo de la libreria para recorrer la consulta por páginas**
+```py
+#Importar la clase al comienzo de nuestro programa de la siguiente manera
+from AccountUser.AccountUser import AccountUser
+
+objAccountUser = AccountUser("https://services.test.sw.com.mx","https://api.test.sw.com.mx",token)
+objResponseAccountUser = objAccountUser.get_users(1, 50)
+#En caso de error, obtenemos el mensaje
+if objResponseAccountUser.get_status() ==  "error":
+	print(objResponseAccountUser.get_message())
+	print(objResponseAccountUser.get_message_detail())
+else:
+	#Obtenemos la paginación de la consulta
+	meta = objResponseAccountUser.get_meta()
+	print("\t Página: ",meta["page"])
+	print("\t Registros por página: ",meta["perPage"])
+	print("\t Total de registros: ",meta["totalCount"])
+	print("\t Total de páginas: ",meta["totalPages"])
+	#Con el total de páginas se recorren las siguientes
+	for user in objResponseAccountUser.data.items:
+		print("\tName: ",user.name)
 ```
 
 </details>
@@ -789,6 +818,8 @@ else:
 * Url Servicios SW
 * Url Api
 * IdUser
+* Página a consultar, opcional
+* Número de registros por página, opcional, hasta 50
 
 **Ejemplo de consumo de la libreria para obtener usuario por ID**
 ```py
@@ -797,26 +828,26 @@ from AccountUser.AccountUser import AccountUser
 
 objAccountUser = AccountUser("https://services.test.sw.com.mx","https://api.test.sw.com.mx",None,user,password)
 idUser = "32501CF2-DC62-4370-B47D-25024C44E131"
-objResponseAccountUser = objAccountUser.getUser_by_idUser(idUser)
+objResponseAccountUser = objAccountUser.get_user_by_id(idUser)
 #En caso de error, obtenemos el mensaje
 if objResponseAccountUser.get_status() ==  "error":
 	print(objResponseAccountUser.get_message())
-	print(objResponseAccountUser.get_messageDetail())
+	print(objResponseAccountUser.get_message_detail())
 else:
 	#Obtenemos la respuesta
-	for user in response.data.items:
-        print("\tName: ",user.name)
-        print("\tIdDelear: ",user.idDealer)
-        print("\tIdUser: ",user.idUser)
-        print("\t taxId: ",user.taxId)
-        print("\t username: ",user.username)
-        print("\t email: ",user.email)
-        print("\t profile: ",user.profile)
-        print("\t isAcrtive: ",user.isActive)
-        print("\t accessToken: ",user.accessToken)
-        print("\t stamps: ",user.stamps)
-        print("\t phone: ",user.phone)
-        print("\t isUnlimited: ",user.isUnlimited)
+	for user in objResponseAccountUser.data.items:
+		print("\tName: ",user.name)
+		print("\tIdDelear: ",user.idDealer)
+		print("\tIdUser: ",user.idUser)
+		print("\t taxId: ",user.taxId)
+		print("\t username: ",user.username)
+		print("\t email: ",user.email)
+		print("\t profile: ",user.profile)
+		print("\t isAcrtive: ",user.isActive)
+		print("\t accessToken: ",user.accessToken)
+		print("\t stamps: ",user.stamps)
+		print("\t phone: ",user.phone)
+		print("\t isUnlimited: ",user.isUnlimited)
 ```
 **Ejemplo de consumo de la libreria para obtener usuario por ID mediante el token**
 ```py
@@ -825,26 +856,26 @@ from AccountUser.AccountUser import AccountUser
 
 objAccountUser = AccountUser("https://services.test.sw.com.mx","https://api.test.sw.com.mx",token)
 idUser = "32501CF2-DC62-4370-B47D-25024C44E131"
-objResponseAccountUser = objAccountUser.getUser_by_idUser(idUser)
+objResponseAccountUser = objAccountUser.get_user_by_id(idUser)
 #En caso de error, obtenemos el mensaje
 if objResponseAccountUser.get_status() ==  "error":
 	print(objResponseAccountUser.get_message())
-	print(objResponseAccountUser.get_messageDetail())
+	print(objResponseAccountUser.get_message_detail())
 else:
 	#Obtenemos la respuesta
-	for user in response.data.items:
-        print("\tName: ",user.name)
-        print("\tIdDelear: ",user.idDealer)
-        print("\tIdUser: ",user.idUser)
-        print("\t taxId: ",user.taxId)
-        print("\t username: ",user.username)
-        print("\t email: ",user.email)
-        print("\t profile: ",user.profile)
-        print("\t isAcrtive: ",user.isActive)
-        print("\t accessToken: ",user.accessToken)
-        print("\t stamps: ",user.stamps)
-        print("\t phone: ",user.phone)
-        print("\t isUnlimited: ",user.isUnlimited)
+	for user in objResponseAccountUser.data.items:
+		print("\tName: ",user.name)
+		print("\tIdDelear: ",user.idDealer)
+		print("\tIdUser: ",user.idUser)
+		print("\t taxId: ",user.taxId)
+		print("\t username: ",user.username)
+		print("\t email: ",user.email)
+		print("\t profile: ",user.profile)
+		print("\t isAcrtive: ",user.isActive)
+		print("\t accessToken: ",user.accessToken)
+		print("\t stamps: ",user.stamps)
+		print("\t phone: ",user.phone)
+		print("\t isUnlimited: ",user.isUnlimited)
 ```
 </details>
 <details>
@@ -855,6 +886,8 @@ else:
 * Url Servicios SW
 * Url Api
 * Email del usuario a consulta.
+* Página a consultar, opcional
+* Número de registros por página, opcional, hasta 50
 
 **Ejemplo de consumo de la libreria para obtener todos los usuarios**
 ```py
@@ -863,26 +896,26 @@ from AccountUser.AccountUser import AccountUser
 
 objAccountUser = AccountUser("https://services.test.sw.com.mx","https://api.test.sw.com.mx",None,user,password)
 email = "usuario_prueba@example.com"
-objResponseAccountUser = objAccountUser.getUser_by_email(email)
+objResponseAccountUser = objAccountUser.get_user_by_email(email)
 #En caso de error, obtenemos el mensaje
 if objResponseAccountUser.get_status() ==  "error":
 	print(objResponseAccountUser.get_message())
-	print(objResponseAccountUser.get_messageDetail())
+	print(objResponseAccountUser.get_message_detail())
 else:
 	#Obtenemos la respuesta
-	for user in response.data.items:
-        print("\tName: ",user.name)
-        print("\tIdDelear: ",user.idDealer)
-        print("\tIdUser: ",user.idUser)
-        print("\t taxId: ",user.taxId)
-        print("\t username: ",user.username)
-        print("\t email: ",user.email)
-        print("\t profile: ",user.profile)
-        print("\t isAcrtive: ",user.isActive)
-        print("\t accessToken: ",user.accessToken)
-        print("\t stamps: ",user.stamps)
-        print("\t phone: ",user.phone)
-        print("\t isUnlimited: ",user.isUnlimited)
+	for user in objResponseAccountUser.data.items:
+		print("\tName: ",user.name)
+		print("\tIdDelear: ",user.idDealer)
+		print("\tIdUser: ",user.idUser)
+		print("\t taxId: ",user.taxId)
+		print("\t username: ",user.username)
+		print("\t email: ",user.email)
+		print("\t profile: ",user.profile)
+		print("\t isAcrtive: ",user.isActive)
+		print("\t accessToken: ",user.accessToken)
+		print("\t stamps: ",user.stamps)
+		print("\t phone: ",user.phone)
+		print("\t isUnlimited: ",user.isUnlimited)
 ```
 **Ejemplo de consumo de la libreria para obtener todos los usuarios mediante token**
 ```py
@@ -891,26 +924,26 @@ from AccountUser.AccountUser import AccountUser
 
 objAccountUser = AccountUser("https://services.test.sw.com.mx","https://api.test.sw.com.mx",token)
 email = "usuario_prueba@example.com"
-objResponseAccountUser = objAccountUser.getUser_by_email(email)
+objResponseAccountUser = objAccountUser.get_user_by_email(email)
 #En caso de error, obtenemos el mensaje
 if objResponseAccountUser.get_status() ==  "error":
 	print(objResponseAccountUser.get_message())
-	print(objResponseAccountUser.get_messageDetail())
+	print(objResponseAccountUser.get_message_detail())
 else:
 	#Obtenemos la respuesta
-	for user in response.data.items:
-        print("\tName: ",user.name)
-        print("\tIdDelear: ",user.idDealer)
-        print("\tIdUser: ",user.idUser)
-        print("\t taxId: ",user.taxId)
-        print("\t username: ",user.username)
-        print("\t email: ",user.email)
-        print("\t profile: ",user.profile)
-        print("\t isAcrtive: ",user.isActive)
-        print("\t accessToken: ",user.accessToken)
-        print("\t stamps: ",user.stamps)
-        print("\t phone: ",user.phone)
-        print("\t isUnlimited: ",user.isUnlimited)
+	for user in objResponseAccountUser.data.items:
+		print("\tName: ",user.name)
+		print("\tIdDelear: ",user.idDealer)
+		print("\tIdUser: ",user.idUser)
+		print("\t taxId: ",user.taxId)
+		print("\t username: ",user.username)
+		print("\t email: ",user.email)
+		print("\t profile: ",user.profile)
+		print("\t isAcrtive: ",user.isActive)
+		print("\t accessToken: ",user.accessToken)
+		print("\t stamps: ",user.stamps)
+		print("\t phone: ",user.phone)
+		print("\t isUnlimited: ",user.isUnlimited)
 ```
 </details>
 <details>
@@ -921,6 +954,8 @@ else:
 * Url Servicios SW
 * Url Api
 * RFC del usuario a consultar.
+* Página a consultar, opcional
+* Número de registros por página, opcional, hasta 50
 
 **Ejemplo de consumo de la libreria para obtener todos los usuarios**
 ```py
@@ -929,26 +964,26 @@ from AccountUser.AccountUser import AccountUser
 
 objAccountUser = AccountUser("https://services.test.sw.com.mx","https://api.test.sw.com.mx",None,user,password)
 taxId = "AAAA000101010"
-objResponseAccountUser = objAccountUser.getUser_by_taxId(taxId)
+objResponseAccountUser = objAccountUser.get_user_by_tax_id(taxId)
 #En caso de error, obtenemos el mensaje
 if objResponseAccountUser.get_status() ==  "error":
 	print(objResponseAccountUser.get_message())
-	print(objResponseAccountUser.get_messageDetail())
+	print(objResponseAccountUser.get_message_detail())
 else:
 	#Obtenemos la respuesta
-	for user in response.data.items:
-        print("\tName: ",user.name)
-        print("\tIdDelear: ",user.idDealer)
-        print("\tIdUser: ",user.idUser)
-        print("\t taxId: ",user.taxId)
-        print("\t username: ",user.username)
-        print("\t email: ",user.email)
-        print("\t profile: ",user.profile)
-        print("\t isAcrtive: ",user.isActive)
-        print("\t accessToken: ",user.accessToken)
-        print("\t stamps: ",user.stamps)
-        print("\t phone: ",user.phone)
-        print("\t isUnlimited: ",user.isUnlimited)
+	for user in objResponseAccountUser.data.items:
+		print("\tName: ",user.name)
+		print("\tIdDelear: ",user.idDealer)
+		print("\tIdUser: ",user.idUser)
+		print("\t taxId: ",user.taxId)
+		print("\t username: ",user.username)
+		print("\t email: ",user.email)
+		print("\t profile: ",user.profile)
+		print("\t isAcrtive: ",user.isActive)
+		print("\t accessToken: ",user.accessToken)
+		print("\t stamps: ",user.stamps)
+		print("\t phone: ",user.phone)
+		print("\t isUnlimited: ",user.isUnlimited)
 ```
 **Ejemplo de consumo de la libreria para obtener todos los usuarios mediante token**
 ```py
@@ -957,26 +992,26 @@ from AccountUser.AccountUser import AccountUser
 
 objAccountUser = AccountUser("https://services.test.sw.com.mx","https://api.test.sw.com.mx",token)
 taxId = "AAAA000101010"
-objResponseAccountUser = objAccountUser.getUser_by_taxId(taxId)
+objResponseAccountUser = objAccountUser.get_user_by_tax_id(taxId)
 #En caso de error, obtenemos el mensaje
 if objResponseAccountUser.get_status() ==  "error":
 	print(objResponseAccountUser.get_message())
-	print(objResponseAccountUser.get_messageDetail())
+	print(objResponseAccountUser.get_message_detail())
 else:
 	#Obtenemos la respuesta
-	for user in response.data.items:
-        print("\tName: ",user.name)
-        print("\tIdDelear: ",user.idDealer)
-        print("\tIdUser: ",user.idUser)
-        print("\t taxId: ",user.taxId)
-        print("\t username: ",user.username)
-        print("\t email: ",user.email)
-        print("\t profile: ",user.profile)
-        print("\t isAcrtive: ",user.isActive)
-        print("\t accessToken: ",user.accessToken)
-        print("\t stamps: ",user.stamps)
-        print("\t phone: ",user.phone)
-        print("\t isUnlimited: ",user.isUnlimited)
+	for user in objResponseAccountUser.data.items:
+		print("\tName: ",user.name)
+		print("\tIdDelear: ",user.idDealer)
+		print("\tIdUser: ",user.idUser)
+		print("\t taxId: ",user.taxId)
+		print("\t username: ",user.username)
+		print("\t email: ",user.email)
+		print("\t profile: ",user.profile)
+		print("\t isAcrtive: ",user.isActive)
+		print("\t accessToken: ",user.accessToken)
+		print("\t stamps: ",user.stamps)
+		print("\t phone: ",user.phone)
+		print("\t isUnlimited: ",user.isUnlimited)
 ```
 </details>
 <details>
@@ -987,6 +1022,8 @@ else:
 * Url Servicios SW
 * Url Api
 * Indica si el Usuario es activo o no (true o false)
+* Página a consultar, opcional
+* Número de registros por página, opcional, hasta 50
 
 **Ejemplo de consumo de la libreria para obtener todos los usuarios**
 ```py
@@ -994,26 +1031,26 @@ else:
 from AccountUser.AccountUser import AccountUser
 
 objAccountUser = AccountUser("https://services.test.sw.com.mx","https://api.test.sw.com.mx",None,user,password)
-objResponseAccountUser = objAccountUser.getUser_by_isActive(True)
+objResponseAccountUser = objAccountUser.get_users_by_is_active(True)
 #En caso de error, obtenemos el mensaje
 if objResponseAccountUser.get_status() ==  "error":
 	print(objResponseAccountUser.get_message())
-	print(objResponseAccountUser.get_messageDetail())
+	print(objResponseAccountUser.get_message_detail())
 else:
 	#Obtenemos la respuesta
-	for user in response.data.items:
-        print("\tName: ",user.name)
-        print("\tIdDelear: ",user.idDealer)
-        print("\tIdUser: ",user.idUser)
-        print("\t taxId: ",user.taxId)
-        print("\t username: ",user.username)
-        print("\t email: ",user.email)
-        print("\t profile: ",user.profile)
-        print("\t isAcrtive: ",user.isActive)
-        print("\t accessToken: ",user.accessToken)
-        print("\t stamps: ",user.stamps)
-        print("\t phone: ",user.phone)
-        print("\t isUnlimited: ",user.isUnlimited)
+	for user in objResponseAccountUser.data.items:
+		print("\tName: ",user.name)
+		print("\tIdDelear: ",user.idDealer)
+		print("\tIdUser: ",user.idUser)
+		print("\t taxId: ",user.taxId)
+		print("\t username: ",user.username)
+		print("\t email: ",user.email)
+		print("\t profile: ",user.profile)
+		print("\t isAcrtive: ",user.isActive)
+		print("\t accessToken: ",user.accessToken)
+		print("\t stamps: ",user.stamps)
+		print("\t phone: ",user.phone)
+		print("\t isUnlimited: ",user.isUnlimited)
 ```
 **Ejemplo de consumo de la libreria para obtener todos los usuarios mediante token**
 ```py
@@ -1021,26 +1058,77 @@ else:
 from AccountUser.AccountUser import AccountUser
 
 objAccountUser = AccountUser("https://services.test.sw.com.mx","https://api.test.sw.com.mx",token)
-objResponseAccountUser = objAccountUser.getUser_by_isActive(True)
+objResponseAccountUser = objAccountUser.get_users_by_is_active(True)
 #En caso de error, obtenemos el mensaje
 if objResponseAccountUser.get_status() ==  "error":
 	print(objResponseAccountUser.get_message())
-	print(objResponseAccountUser.get_messageDetail())
+	print(objResponseAccountUser.get_message_detail())
 else:
 	#Obtenemos la respuesta
-	for user in response.data.items:
-        print("\tName: ",user.name)
-        print("\tIdDelear: ",user.idDealer)
-        print("\tIdUser: ",user.idUser)
-        print("\t taxId: ",user.taxId)
-        print("\t username: ",user.username)
-        print("\t email: ",user.email)
-        print("\t profile: ",user.profile)
-        print("\t isAcrtive: ",user.isActive)
-        print("\t accessToken: ",user.accessToken)
-        print("\t stamps: ",user.stamps)
-        print("\t phone: ",user.phone)
-        print("\t isUnlimited: ",user.isUnlimited)
+	for user in objResponseAccountUser.data.items:
+		print("\tName: ",user.name)
+		print("\tIdDelear: ",user.idDealer)
+		print("\tIdUser: ",user.idUser)
+		print("\t taxId: ",user.taxId)
+		print("\t username: ",user.username)
+		print("\t email: ",user.email)
+		print("\t profile: ",user.profile)
+		print("\t isAcrtive: ",user.isActive)
+		print("\t accessToken: ",user.accessToken)
+		print("\t stamps: ",user.stamps)
+		print("\t phone: ",user.phone)
+		print("\t isUnlimited: ",user.isUnlimited)
+```
+</details>
+<details>
+  <summary>Obtener usuarios por nombre</summary>
+
+<br>Este método recibe los siguientes parametros:
+* Usuario y contraseña o Token de la cuenta padre.
+* Url Servicios SW
+* Url Api
+* Nombre del usuario a consultar
+* Página a consultar, opcional
+* Número de registros por página, opcional, hasta 50
+
+**Ejemplo de consumo de la libreria para obtener los usuarios por nombre**
+```py
+#Importar la clase al comienzo de nuestro programa de la siguiente manera
+from AccountUser.AccountUser import AccountUser
+
+objAccountUser = AccountUser("https://services.test.sw.com.mx","https://api.test.sw.com.mx",None,user,password)
+objResponseAccountUser = objAccountUser.get_user_by_name("Cliente de prueba")
+#En caso de error, obtenemos el mensaje
+if objResponseAccountUser.get_status() ==  "error":
+	print(objResponseAccountUser.get_message())
+	print(objResponseAccountUser.get_message_detail())
+else:
+	#Una consulta sin coincidencias regresa la lista vacía
+	for user in objResponseAccountUser.data.items:
+		print("\tName: ",user.name)
+		print("\tIdUser: ",user.idUser)
+		print("\t taxId: ",user.taxId)
+		print("\t email: ",user.email)
+```
+
+**Ejemplo de consumo de la libreria para obtener los usuarios por nombre mediante token**
+```py
+#Importar la clase al comienzo de nuestro programa de la siguiente manera
+from AccountUser.AccountUser import AccountUser
+
+objAccountUser = AccountUser("https://services.test.sw.com.mx","https://api.test.sw.com.mx",token)
+objResponseAccountUser = objAccountUser.get_user_by_name("Cliente de prueba")
+#En caso de error, obtenemos el mensaje
+if objResponseAccountUser.get_status() ==  "error":
+	print(objResponseAccountUser.get_message())
+	print(objResponseAccountUser.get_message_detail())
+else:
+	#Una consulta sin coincidencias regresa la lista vacía
+	for user in objResponseAccountUser.data.items:
+		print("\tName: ",user.name)
+		print("\tIdUser: ",user.idUser)
+		print("\t taxId: ",user.taxId)
+		print("\t email: ",user.email)
 ```
 </details>
 
@@ -1068,12 +1156,12 @@ objResponseBalance = objBalance.get_balance()
 #En caso de error, obtenemos el mensaje
 if objResponseBalance.get_status() ==  "error":
 	print(objResponseBalance.get_message())
-	print(objResponseBalance.get_messageDetail())
+	print(objResponseBalance.get_message_detail())
 else:
 	#Obtenemos los datos
 	print(objResponseBalance.data.idUser)
 	print(objResponseBalance.data.idUserBalance)
-    print(objResponseBalance.data.stampsAssigned)
+	print(objResponseBalance.data.stampsAssigned)
 	print(objResponseBalance.data.stampsUsed)
 	print(objResponseBalance.data.stampsBalance)
 ```
@@ -1088,12 +1176,62 @@ objResponseBalance = objBalance.get_balance()
 #En caso de error, obtenemos el mensaje
 if objResponseBalance.get_status() ==  "error":
 	print(objResponseBalance.get_message())
-	print(objResponseBalance.get_messageDetail())
+	print(objResponseBalance.get_message_detail())
 else:
 	#Obtenemos los datos
 	print(objResponseBalance.data.idUser)
 	print(objResponseBalance.data.idUserBalance)
-    print(objResponseBalance.data.stampsAssigned)
+	print(objResponseBalance.data.stampsAssigned)
+	print(objResponseBalance.data.stampsUsed)
+	print(objResponseBalance.data.stampsBalance)
+```
+</details>
+
+<details>
+  <summary>Consulta de timbres por ID</summary>
+
+<br>Este método recibe los siguientes parametros:
+* Usuario y contraseña o Token
+* Url Servicios SW
+* Url Api
+* IdUser de la cuenta hija a consultar, como cadena o como uuid.UUID
+
+**Ejemplo de consumo de la libreria para consultar el saldo de una cuenta hija mediante usuario y contraseña**
+```py
+#Importar la clase al comienzo de nuestro programa de la siguiente manera
+from Balance.Balance import Balance
+
+objBalance = Balance("https://services.test.sw.com.mx","https://api.test.sw.com.mx", None, user, password)
+objResponseBalance = objBalance.get_balance_by_id("32501CF2-DC62-4370-B47D-25024C44E131")
+#En caso de error, obtenemos el mensaje
+if objResponseBalance.get_status() ==  "error":
+	print(objResponseBalance.get_message())
+	print(objResponseBalance.get_message_detail())
+else:
+	#Obtenemos los datos
+	print(objResponseBalance.data.idUser)
+	print(objResponseBalance.data.idUserBalance)
+	print(objResponseBalance.data.stampsAssigned)
+	print(objResponseBalance.data.stampsUsed)
+	print(objResponseBalance.data.stampsBalance)
+```
+
+**Ejemplo de consumo de la libreria para consultar el saldo de una cuenta hija mediante token**
+```py
+#Importar la clase al comienzo de nuestro programa de la siguiente manera
+from Balance.Balance import Balance
+
+objBalance = Balance("https://services.test.sw.com.mx","https://api.test.sw.com.mx", token)
+objResponseBalance = objBalance.get_balance_by_id("32501CF2-DC62-4370-B47D-25024C44E131")
+#En caso de error, obtenemos el mensaje
+if objResponseBalance.get_status() ==  "error":
+	print(objResponseBalance.get_message())
+	print(objResponseBalance.get_message_detail())
+else:
+	#Obtenemos los datos
+	print(objResponseBalance.data.idUser)
+	print(objResponseBalance.data.idUserBalance)
+	print(objResponseBalance.data.stampsAssigned)
 	print(objResponseBalance.data.stampsUsed)
 	print(objResponseBalance.data.stampsBalance)
 ```
@@ -1106,9 +1244,9 @@ else:
 * Usuario y contraseña o Token
 * Url Servicios SW
 * Url Api
-* IdUser
+* IdUser de la cuenta hija, como cadena o como uuid.UUID
 * Número de timbres
-* Comentario
+* Comentario del movimiento, opcional
 
 > [!NOTE] 
 > El servicio regresa unicamente la cantidad de timbres despues del abono de timbres.
@@ -1123,7 +1261,7 @@ objResponseBalance = objBalance.add_stamps("32501CF2-DC62-4370-B47D-25024C44E131
 #En caso de error, obtenemos el mensaje
 if objResponseBalance.get_status() ==  "error":
 	print(objResponseBalance.get_message())
-	print(objResponseBalance.get_messageDetail())
+	print(objResponseBalance.get_message_detail())
 else:
 	#Obtenemos la cantidad de timbres posterior a la asignación
 	print(objResponseBalance.get_data())
@@ -1138,7 +1276,7 @@ objResponseBalance = objBalance.add_stamps("32501CF2-DC62-4370-B47D-25024C44E131
 #En caso de error, obtenemos el mensaje
 if objResponseBalance.get_status() ==  "error":
 	print(objResponseBalance.get_message())
-	print(objResponseBalance.get_messageDetail())
+	print(objResponseBalance.get_message_detail())
 else:
 	#Obtenemos la cantidad de timbres posterior a la asignación
 	print(objResponseBalance.get_data())
@@ -1151,9 +1289,9 @@ else:
 * Usuario y contraseña o Token
 * Url Servicios SW
 * Url Api
-* IdUser
+* IdUser de la cuenta hija, como cadena o como uuid.UUID
 * Número de timbres
-* Comentario
+* Comentario del movimiento, opcional
 
 > [!NOTE]
 > El servicio regresa unicamente la cantidad de timbres despues de remover los timbres.
@@ -1168,7 +1306,7 @@ objResponseBalance = objBalance.remove_stamps("32501CF2-DC62-4370-B47D-25024C44E
 #En caso de error, obtenemos el mensaje
 if objResponseBalance.get_status() ==  "error":
 	print(objResponseBalance.get_message())
-	print(objResponseBalance.get_messageDetail())
+	print(objResponseBalance.get_message_detail())
 else:
 	#Obtenemos la cantidad de timbres posterior a remover los timbres
 	print(objResponseBalance.get_data())
@@ -1184,7 +1322,7 @@ objResponseBalance = objBalance.remove_stamps("32501CF2-DC62-4370-B47D-25024C44E
 #En caso de error, obtenemos el mensaje
 if objResponseBalance.get_status() ==  "error":
 	print(objResponseBalance.get_message())
-	print(objResponseBalance.get_messageDetail())
+	print(objResponseBalance.get_message_detail())
 else:
 	#Obtenemos la cantidad de timbres posterior a remover los timbres
 	print(objResponseBalance.get_data())
@@ -1212,8 +1350,8 @@ from Validate.Validate import Validate
 
 #Creamos funcion para abrir nuestro archivo
 xml = open_file("file.xml")
-objValidate = Validate("http://services.test.sw.com.mx", , None ,"user","password")
-objResponseValidateXml = objValidate.ValidateXml(xml)
+objValidate = Validate("http://services.test.sw.com.mx", None, "user", "password")
+objResponseValidateXml = objValidate.validate_xml(xml)
 
 #Respuesta
 print(objResponseValidateXml.get_response())
@@ -1242,7 +1380,7 @@ from Validate.Validate import Validate
 #Creamos funcion para abrir nuestro archivo
 xml = open_file("file.xml")
 objValidate = Validate("http://services.test.sw.com.mx", "T2lYQ0t4L0R....ReplaceForRealToken")
-objResponseValidateXml = objValidate.ValidateXml(xml)
+objResponseValidateXml = objValidate.validate_xml(xml)
 
 #Respuesta
 print(objResponseValidateXml.get_response())
@@ -1274,15 +1412,13 @@ Consulta Estatus SAT
 </summary>
 Este servicio sirve para consultar el estatus de un CFDI antes y después de enviarlo a cancelar, con él sabremos sí puede ser cancelado de forma directa, o en caso de que se necesite consultar los CFDI relacionados para poder generar la cancelación.
 
-:pushpin: ***NOTA:*** El servicio de consulta es de tipo SOAP y es proporcionado directamente por parte del SAT.
+:pushpin: ***NOTA:*** El servicio de consulta es de tipo SOAP. En el ambiente de pruebas es emulado por SW en `https://api.test.sw.com.mx/ConsultaCFDIService.svc`; en productivo se consume directamente del SAT en `https://consultaqr.facturaelectronica.sat.gob.mx/ConsultaCFDIService.svc`.
 
-Este metodo recibe los siguientes parametros:
+La clase se construye con la Url del servicio de consulta y no necesita credenciales. El metodo recibe los siguientes parametros:
 * RFC Emisor
 * RFC Receptor
 * Total declarado en el comprobante
 * UUID del comprobante a consultar
-* Url
-* Acción
 
 **Ejemplo de consumo de la libreria para la consulta del estatus SAT**
 ```py
@@ -1294,14 +1430,16 @@ rfc_emisor = "LAN8507268IA"
 rfc_receptor = "LAN7008173R5"
 total = "5800.00"
 uuid = "eb978000-95c7-4513-8d97-4b59434da45f"
-status = StatusCfdi.status(rfc_emisor, rfc_receptor, total, uuid, "https://pruebacfdiconsultaqr.cloudapp.net/ConsultaCFDIService.svc", "http://tempuri.org/IConsultaCFDIService/Consulta")
+statusCfdi = StatusCfdi("https://api.test.sw.com.mx/ConsultaCFDIService.svc")
+status = statusCfdi.status(rfc_emisor, rfc_receptor, total, uuid)
 
+print(status.get_status())
 print(status.get_response())
 #Datos de respuesta
-print(status.get_codigoEstatus())
-print(status.get_estado())
-print(status.get_esCancelable())
-print(status.get_estatusCancelacion())
+print(status.get_status_code_sat())
+print(status.get_state())
+print(status.get_is_cancelable())
+print(status.get_cancelation_status())
 print(status.get_status_code())
 ```
 
@@ -1338,7 +1476,7 @@ response_csd = relations.relations_csd(rfc, uuid, b64_csd, b64_key, password_csd
 
 if response_csd.get_status() ==  "error":
 	print(response_csd.get_message())
-	print(response_csd.get_messageDetail())
+	print(response_csd.get_message_detail())
 else:
 	print(response_csd.get_data())
 ```
@@ -1370,7 +1508,7 @@ response_pfx = relations.relations_pfx(rfc, uuid, b64_pfx, password_csd)
 
 if response_pfx.get_status() ==  "error":
 	print(response_pfx.get_message())
-	print(response_pfx.get_messageDetail())
+	print(response_pfx.get_message_detail())
 else:
 	print(response_pfx.get_data())
 ```
@@ -1402,7 +1540,7 @@ response_uuid = relations.relations_uuid(rfc, uuid)
 
 if response_uuid.get_status() ==  "error":
 	print(response_uuid.get_message())
-	print(response_uuid.get_messageDetail())
+	print(response_uuid.get_message_detail())
 else:
 	print(response_uuid.get_data())
 ```
@@ -1675,9 +1813,61 @@ f.close()
 Para mayor referencia de estas plantillas de PDF, favor de visitar el siguiente [link](https://developers.sw.com.mx/knowledge-base/plantillas-pdf/).
 </details>
 
+<details>
+<summary>
+Regenerar PDF
+</summary>
+
+Este método genera o regenera el PDF de un CFDI previamente timbrado y lo guarda o reemplaza en el Administrador de Timbres. Puede ser consumido ingresando tu usuario y contraseña así como tambien ingresando solo el token. Este método recibe los siguientes parámetros:
+
+* Url servicios SW
+* Url Api
+* Usuario y contraseña o Token
+* UUID del CFDI, como cadena o como `uuid.UUID`
+* Logo en base 64 (opcional)
+* Template id (opcional), se solicita a Soporte Técnico cuando se trata de una plantilla personalizada
+* Datos extra (opcional), sólo aplica en plantillas personalizadas
+
+**Ejemplo de consumo de la libreria para la regeneración de PDF mediante token**
+```py
+#Importar la clase al comienzo de nuestro programa de la siguiente manera
+from Pdf.Pdf import Pdf
+
+pdf = Pdf("https://services.test.sw.com.mx","https://api.test.sw.com.mx","T2lYQ0t4L0R....ReplaceForRealToken")
+response = pdf.regenerate_pdf("d3773788-c68a-4549-ac67-f223d26c925b")
+
+if response.get_status() == "error":
+	print(response.get_message())
+	print(response.get_message_detail())
+else:
+	print(response.get_status())
+	print(response.get_message())
+```
+
+**Ejemplo de consumo de la libreria para la regeneración de PDF mediante usuario y contraseña**
+```py
+#Importar la clase al comienzo de nuestro programa de la siguiente manera
+from Pdf.Pdf import Pdf
+
+#Datos opcionales para una plantilla personalizada
+logo = None
+extras = {
+        'REFERENCIA': "Referencia de pruebas"
+        }
+pdf = Pdf("https://services.test.sw.com.mx","https://api.test.sw.com.mx", None, "user", "password")
+response = pdf.regenerate_pdf("d3773788-c68a-4549-ac67-f223d26c925b", logo, "cfdi40", extras)
+print(response.get_status())
+print(response.get_message())
+```
+
+:pushpin: ***NOTA:*** Este servicio no devuelve el PDF en base 64, únicamente el mensaje de confirmación, y el archivo queda almacenado o reemplazado en el Administrador de Timbres. Si se necesita el contenido del PDF en la respuesta, el servicio correspondiente es **Generar PDF**; las URLs de descarga del comprobante ya regenerado se obtienen con [Recuperar XML por UUID](#recuperar-xml-por-uuid).
+</details>
+
 ## Certificados ##
 Servicio para gestionar los certificados CSD de tu cuenta.
 Para administrar los certificados de manera gráfica, puede hacerlo desde el [Administrador de timbres](https://portal.sw.com.mx/).
+
+:pushpin: ***NOTA:*** En todas las consultas de esta sección el parámetro de búsqueda es obligatorio. La librería no lo valida en local: se envía tal cual y responde el servicio.
 
 
 <details>
@@ -1705,8 +1895,386 @@ response = csd_obj.upload_csd("stamp", b64_csd, b64_key, password_csd)
 ```
 </details>
 
+<details>
+<summary>
+Consultar Certificados
+</summary>
+
+Método para consultar todos los certificados cargados en la cuenta.
+
+Este metodo recibe los siguientes parametros:
+* Url Servicios SW
+* Usuario y contraseña o token
+
+**Ejemplo de consumo de la libreria para la consulta de certificados mediante token**
+```py
+#Importar la clase al comienzo de nuestro programa de la siguiente manera
+from Csd.Csd import Csd
+
+csd_obj = Csd("http://services.test.sw.com.mx", "T2lYQ0t4L0R....ReplaceForRealToken")
+response = csd_obj.get_list_csd()
+
+if response.get_status() ==  "error":
+	print(response.get_message())
+	print(response.get_message_detail())
+else:
+	for certificado in response.get_data():
+		print("issuer_rfc: ", certificado["issuer_rfc"])
+		print("certificate_number: ", certificado["certificate_number"])
+		print("csd_certificate: ", certificado["csd_certificate"])
+		print("is_active: ", certificado["is_active"])
+		print("issuer_business_name: ", certificado["issuer_business_name"])
+		print("valid_from: ", certificado["valid_from"])
+		print("valid_to: ", certificado["valid_to"])
+		print("certificate_type: ", certificado["certificate_type"])
+```
+
+**Ejemplo de consumo de la libreria para la consulta de certificados mediante usuario y contraseña**
+```py
+#Importar la clase al comienzo de nuestro programa de la siguiente manera
+from Csd.Csd import Csd
+
+csd_obj = Csd("http://services.test.sw.com.mx", None, "user", "password")
+response = csd_obj.get_list_csd()
+
+print(response.get_status())
+print(response.get_data())
+```
+
+Si la cuenta no tiene certificados cargados, el servicio responde `status` **success** con `data` vacío; no se trata de un error.
+</details>
+
+<details>
+<summary>
+Consultar Certificado por NoCertificado
+</summary>
+
+Método para consultar un certificado en específico mediante su número de certificado.
+
+Este metodo recibe los siguientes parametros:
+* Url Servicios SW
+* Usuario y contraseña o token
+* Número de certificado
+
+**Ejemplo de consumo de la libreria para la consulta de un certificado mediante token**
+```py
+#Importar la clase al comienzo de nuestro programa de la siguiente manera
+from Csd.Csd import Csd
+
+csd_obj = Csd("http://services.test.sw.com.mx", "T2lYQ0t4L0R....ReplaceForRealToken")
+response = csd_obj.get_csd("30001000000400002434")
+
+if response.get_status() ==  "error":
+	print(response.get_message())
+	print(response.get_message_detail())
+else:
+	certificado = response.get_data()
+	print("issuer_rfc: ", certificado["issuer_rfc"])
+	print("certificate_number: ", certificado["certificate_number"])
+	print("csd_certificate: ", certificado["csd_certificate"])
+	print("is_active: ", certificado["is_active"])
+	print("issuer_business_name: ", certificado["issuer_business_name"])
+	print("valid_from: ", certificado["valid_from"])
+	print("valid_to: ", certificado["valid_to"])
+	print("certificate_type: ", certificado["certificate_type"])
+```
+
+**Ejemplo de consumo de la libreria para la consulta de un certificado mediante usuario y contraseña**
+```py
+#Importar la clase al comienzo de nuestro programa de la siguiente manera
+from Csd.Csd import Csd
+
+csd_obj = Csd("http://services.test.sw.com.mx", None, "user", "password")
+response = csd_obj.get_csd("30001000000400002434")
+
+print(response.get_status())
+print(response.get_data())
+```
+
+A diferencia de la consulta general, aquí `data` es un objeto único, no un arreglo.
+</details>
+
+<details>
+<summary>
+Consultar Certificados por RFC
+</summary>
+
+Método para consultar los certificados de la cuenta que pertenecen a un RFC emisor.
+
+Este metodo recibe los siguientes parametros:
+* Url Servicios SW
+* Usuario y contraseña o token
+* RFC del emisor
+
+**Ejemplo de consumo de la libreria para la consulta de certificados por RFC mediante token**
+```py
+#Importar la clase al comienzo de nuestro programa de la siguiente manera
+from Csd.Csd import Csd
+
+csd_obj = Csd("http://services.test.sw.com.mx", "T2lYQ0t4L0R....ReplaceForRealToken")
+response = csd_obj.get_list_csd_by_rfc("EKU9003173C9")
+
+if response.get_status() ==  "error":
+	print(response.get_message())
+	print(response.get_message_detail())
+else:
+	for certificado in response.get_data():
+		print("certificate_number: ", certificado["certificate_number"])
+		print("is_active: ", certificado["is_active"])
+		print("valid_to: ", certificado["valid_to"])
+```
+
+**Ejemplo de consumo de la libreria para la consulta de certificados por RFC mediante usuario y contraseña**
+```py
+#Importar la clase al comienzo de nuestro programa de la siguiente manera
+from Csd.Csd import Csd
+
+csd_obj = Csd("http://services.test.sw.com.mx", None, "user", "password")
+response = csd_obj.get_list_csd_by_rfc("EKU9003173C9")
+
+print(response.get_status())
+print(response.get_data())
+```
+</details>
+
+<details>
+<summary>
+Consultar Certificados por Tipo
+</summary>
+
+Método para consultar los certificados de la cuenta que corresponden a un tipo, **stamp** o **fiel**.
+
+Este metodo recibe los siguientes parametros:
+* Url Servicios SW
+* Usuario y contraseña o token
+* Tipo de certificado
+
+**Ejemplo de consumo de la libreria para la consulta de certificados por tipo mediante token**
+```py
+#Importar la clase al comienzo de nuestro programa de la siguiente manera
+from Csd.Csd import Csd
+
+csd_obj = Csd("http://services.test.sw.com.mx", "T2lYQ0t4L0R....ReplaceForRealToken")
+response = csd_obj.get_list_csd_by_type("stamp")
+
+if response.get_status() ==  "error":
+	print(response.get_message())
+	print(response.get_message_detail())
+else:
+	for certificado in response.get_data():
+		print("certificate_number: ", certificado["certificate_number"])
+		print("issuer_rfc: ", certificado["issuer_rfc"])
+		print("certificate_type: ", certificado["certificate_type"])
+		print("is_active: ", certificado["is_active"])
+```
+
+**Ejemplo de consumo de la libreria para la consulta de certificados por tipo mediante usuario y contraseña**
+```py
+#Importar la clase al comienzo de nuestro programa de la siguiente manera
+from Csd.Csd import Csd
+
+csd_obj = Csd("http://services.test.sw.com.mx", None, "user", "password")
+response = csd_obj.get_list_csd_by_type("stamp")
+
+print(response.get_status())
+print(response.get_data())
+```
+
+Si no hay certificados de ese tipo, el servicio responde `status` **success** con `data` vacío; no se trata de un error.
+</details>
+
+<details>
+<summary>
+Consultar Certificado Activo por RFC
+</summary>
+
+Método para consultar el certificado **activo** de un RFC para un tipo determinado, **stamp** o **fiel**.
+
+Este metodo recibe los siguientes parametros:
+* Url Servicios SW
+* Usuario y contraseña o token
+* RFC del emisor
+* Tipo de certificado
+
+**Ejemplo de consumo de la libreria para la consulta del certificado activo mediante token**
+```py
+#Importar la clase al comienzo de nuestro programa de la siguiente manera
+from Csd.Csd import Csd
+
+csd_obj = Csd("http://services.test.sw.com.mx", "T2lYQ0t4L0R....ReplaceForRealToken")
+response = csd_obj.get_active_csd("EKU9003173C9", "stamp")
+
+if response.get_status() ==  "error":
+	print(response.get_message())
+	print(response.get_message_detail())
+else:
+	certificado = response.get_data()
+	print("certificate_number: ", certificado["certificate_number"])
+	print("issuer_business_name: ", certificado["issuer_business_name"])
+	print("valid_from: ", certificado["valid_from"])
+	print("valid_to: ", certificado["valid_to"])
+	print("is_active: ", certificado["is_active"])
+```
+
+**Ejemplo de consumo de la libreria para la consulta del certificado activo mediante usuario y contraseña**
+```py
+#Importar la clase al comienzo de nuestro programa de la siguiente manera
+from Csd.Csd import Csd
+
+csd_obj = Csd("http://services.test.sw.com.mx", None, "user", "password")
+response = csd_obj.get_active_csd("EKU9003173C9", "stamp")
+
+print(response.get_status())
+print(response.get_data())
+```
+
+A diferencia de la consulta por RFC, aquí `data` es un objeto único con el certificado activo, no un arreglo.
+
+Si el RFC no tiene un certificado activo de ese tipo, el servicio responde `status` **error**.
+</details>
+
+<details>
+<summary>
+Eliminar Certificado
+</summary>
+
+Método para desactivar (eliminar) un certificado de la cuenta mediante su número de certificado.
+
+Este metodo recibe los siguientes parametros:
+* Url Servicios SW
+* Usuario y contraseña o token
+* Número de certificado
+
+**Ejemplo de consumo de la libreria para la eliminación de un certificado mediante token**
+```py
+#Importar la clase al comienzo de nuestro programa de la siguiente manera
+from Csd.Csd import Csd
+
+csd_obj = Csd("http://services.test.sw.com.mx", "T2lYQ0t4L0R....ReplaceForRealToken")
+response = csd_obj.disable_csd("30001000000400002434")
+
+if response.get_status() ==  "error":
+	print(response.get_message())
+	print(response.get_message_detail())
+else:
+	#data regresa un texto: "Certificado 30001000000400002434 desactivado."
+	print(response.get_data())
+```
+
+**Ejemplo de consumo de la libreria para la eliminación de un certificado mediante usuario y contraseña**
+```py
+#Importar la clase al comienzo de nuestro programa de la siguiente manera
+from Csd.Csd import Csd
+
+csd_obj = Csd("http://services.test.sw.com.mx", None, "user", "password")
+response = csd_obj.disable_csd("30001000000400002434")
+
+print(response.get_status())
+print(response.get_data())
+```
+
+:pushpin: ***NOTA:*** La operación desactiva el certificado en la cuenta. Para volver a utilizarlo es necesario cargarlo de nuevo con **Cargar Certificado**.
+</details>
+
+## Recuperar XML por UUID ##
+Servicio para recuperar la información y las URLs de descarga de un CFDI timbrado con SW a partir de su UUID.
+
+<details>
+<summary>
+Recuperar XML por UUID mediante token
+</summary>
+
+Método para consultar un CFDI timbrado en la cuenta mediante su UUID.
+
+Este metodo recibe los siguientes parametros:
+* Url Servicios SW
+* Url Api
+* Token
+* UUID del CFDI, como cadena o como `uuid.UUID`
+
+**Ejemplo de consumo de la libreria para la recuperación de un XML mediante token**
+```py
+#Importar la clase al comienzo de nuestro programa de la siguiente manera
+from Storage.Storage import Storage
+
+storage_obj = Storage("https://services.test.sw.com.mx", "https://api.test.sw.com.mx", "T2lYQ0t4L0R....ReplaceForRealToken")
+response = storage_obj.get_by_uuid("d3773788-c68a-4549-ac67-f223d26c925b")
+
+if response.get_status() ==  "error":
+	print(response.get_message())
+	print(response.get_message_detail())
+else:
+	print(response.get_status())
+	#Un UUID sin coincidencias regresa una lista vacía. El comprobante recién timbrado
+	#tarda alrededor de un minuto en quedar disponible en la consulta.
+	for registro in response.get_records():
+		print("UUID: ", registro.get("uuid"))
+		print("Serie: ", registro.get("serie"))
+		print("Folio: ", registro.get("folio"))
+		print("Fecha: ", registro.get("fecha"))
+		print("Total: ", registro.get("total"))
+		print("Emisor: ", registro.get("emisorRfc"), registro.get("emisorNombre"))
+		print("Receptor: ", registro.get("receptorRfc"), registro.get("receptorNombre"))
+		print("Estatus SAT: ", registro.get("statusSAT"))
+		print("Url XML: ", registro.get("urlXml"))
+	#Atajos para el primer registro de la consulta
+	print("Url de descarga del XML: ", response.get_url_xml())
+	print("Url de descarga del PDF: ", response.get_url_pdf())
+	#Descargamos el XML
+	if response.get_url_xml():
+		import requests
+		xml = requests.get(response.get_url_xml()).content
+		f = open('file.xml', 'wb')
+		f.write(xml)
+		f.close()
+```
+</details>
+
+<details>
+<summary>
+Recuperar XML por UUID mediante usuario y contraseña
+</summary>
+
+Método para consultar un CFDI timbrado en la cuenta mediante su UUID, autenticando con usuario y contraseña.
+
+Este metodo recibe los siguientes parametros:
+* Url Servicios SW
+* Url Api
+* Usuario y contraseña
+* UUID del CFDI, como cadena o como `uuid.UUID`
+
+**Ejemplo de consumo de la libreria para la recuperación de un XML mediante usuario y contraseña**
+```py
+#Importar la clase al comienzo de nuestro programa de la siguiente manera
+from Storage.Storage import Storage
+
+storage_obj = Storage("https://services.test.sw.com.mx", "https://api.test.sw.com.mx", None, "user", "password")
+response = storage_obj.get_by_uuid("d3773788-c68a-4549-ac67-f223d26c925b")
+
+print(response.get_status())
+registro = response.get_first_record()
+if registro is None:
+	print("El UUID no se encontró en la cuenta")
+else:
+	print("Url de descarga del XML: ", response.get_url_xml())
+```
+</details>
+
 ## TimbradoV4 ##
 Servicios de timbrado con servicios adicionales para una mejor experiencia para tu sistema, los headers pueden mezclarse o usarse al mismo tiempo.
+
+Los tres métodos (`StampV4.stamp`, `IssueV4.issue_xml` e `IssueV4.issue_json`) reciben los headers en el parámetro `headers`. Los headers disponibles son:
+
+* `email`: hasta 5 correos, separados por comas, a los que se enviará el XML timbrado.
+* `customid`: identificador asignado por el usuario para evitar la duplicidad de timbrado.
+* `extra`: con el valor `pdf` confirma la generación del PDF, que se guarda en automático en el ADT.
+
+Esos tres headers también se pueden enviar con los parámetros `email`, `custom_id` y `pdf`, que los arman internamente; `email` acepta además una lista y `pdf` es un booleano. Si se usan las dos formas al mismo tiempo, prevalece el contenido de `headers`.
+
+Los tres métodos reciben además:
+
+* `b64`: con el valor `True` indica que el XML se envía en base 64. No aplica en `issue_json`.
+* `version`: versión de la respuesta, tomada del enum `ResponseVersion` (`V1`, `V2`, `V3` y `V4`). Puede consultar el detalle de cada versión en el siguiente [link](https://developers.sw.com.mx/knowledge-base/versiones-de-respuesta-timbrado/).
 
 ### **Email** ###
 
@@ -1721,13 +2289,14 @@ Existen varias versiones de respuesta a este método, las cuales puede consultar
 ```py
 from Stamp.StampV4 import StampV4
 from Utils.response_version import ResponseVersion
+
 #Creamos funcion para abrir nuestro archivo
- xml_content = open("prueba.xml", "r", encoding='utf-8').read()
+xml_content = open("prueba.xml", "r", encoding='utf-8').read()
 #Creamos instancia y pasamos parametros
- stamp = StampV4("http://services.test.sw.com.mx","T2lYQ0t4L0R....ReplaceForRealToken")
- headers = {
-                "email": "stamp1@test.com,stamp2@test.com"
-           }
+stamp = StampV4("https://services.test.sw.com.mx","T2lYQ0t4L0R....ReplaceForRealToken")
+headers = {
+    "email": "stamp1@test.com,stamp2@test.com"
+}
 response = stamp.stamp(xml_content, headers=headers, version=ResponseVersion.V2)
 print(response.get_data())
 print(response.get_status())
@@ -1742,16 +2311,15 @@ print(response.get_status())
 ```py
 from Issue.IssueV4 import IssueV4
 from Utils.response_version import ResponseVersion
-issue = IssueV4("http://services.test.sw.com.mx","T2lYQ0t4L0R....ReplaceForRealToken")
-             xml_content = open("prueba.xml", "r", encoding='utf-8').read()
-            
-           headers = {
-                "email": "test1@test.com,test2@test.com"
-            }
-            
-            response = issue.issue_xml(xml_content, headers=headers, version=ResponseVersion.V4)
-            print(response.get_data())
-            print(response.get_status())
+
+issue = IssueV4("https://services.test.sw.com.mx","T2lYQ0t4L0R....ReplaceForRealToken")
+xml_content = open("prueba.xml", "r", encoding='utf-8').read()
+headers = {
+    "email": "test1@test.com,test2@test.com"
+}
+response = issue.issue_xml(xml_content, headers=headers, version=ResponseVersion.V4)
+print(response.get_data())
+print(response.get_status())
 ```
 
 </details>
@@ -1764,16 +2332,14 @@ issue = IssueV4("http://services.test.sw.com.mx","T2lYQ0t4L0R....ReplaceForRealT
 from Issue.IssueV4 import IssueV4
 from Utils.response_version import ResponseVersion
 
-            issue = IssueV4("http://services.test.sw.com.mx", None, "user", "password")
-            json_content =  open_file("cfdi.json")
-            
-            headers = {
-                "email": "test1@test.com,test2@test.com"
-            }
-            
-            response = issue.issue_json(json_content, headers=headers, version=ResponseVersion.V4)
-            print(response.get_data())
-            print(response.get_status())
+issue = IssueV4("https://services.test.sw.com.mx", None, "user", "password")
+json_content = open("cfdi.json", "r", encoding='utf-8').read()
+headers = {
+    "email": "test1@test.com,test2@test.com"
+}
+response = issue.issue_json(json_content, headers=headers, version=ResponseVersion.V4)
+print(response.get_data())
+print(response.get_status())
 ```
 </details>
 
@@ -1790,13 +2356,14 @@ Existen varias versiones de respuesta a este método, las cuales puede consultar
 ```py
 from Stamp.StampV4 import StampV4
 from Utils.response_version import ResponseVersion
+
 #Creamos funcion para abrir nuestro archivo
- xml_content = open("prueba.xml", "r", encoding='utf-8').read()
+xml_content = open("prueba.xml", "r", encoding='utf-8').read()
 #Creamos instancia y pasamos parametros
- stamp = StampV4("http://services.test.sw.com.mx",None, "user", "password")
- headers = {
-                 "customid": "ISS-25-369"
-           }
+stamp = StampV4("https://services.test.sw.com.mx",None, "user", "password")
+headers = {
+    "customid": "ISS-25-369"
+}
 response = stamp.stamp(xml_content, headers=headers, version=ResponseVersion.V3)
 print(response.get_data())
 print(response.get_status())
@@ -1810,16 +2377,15 @@ print(response.get_status())
 ```py
 from Issue.IssueV4 import IssueV4
 from Utils.response_version import ResponseVersion
-issue = IssueV4("http://services.test.sw.com.mx","T2lYQ0t4L0R....ReplaceForRealToken")
-             xml_content = open("prueba.xml", "r", encoding='utf-8').read()
-            
-           headers = {
-                  "customid": "ISS-25-368"
-            }
-            
-            response = issue.issue_xml(xml_content, headers=headers, version=ResponseVersion.V4)
-            print(response.get_data())
-            print(response.get_status())
+
+issue = IssueV4("https://services.test.sw.com.mx","T2lYQ0t4L0R....ReplaceForRealToken")
+xml_content = open("prueba.xml", "r", encoding='utf-8').read()
+headers = {
+    "customid": "ISS-25-368"
+}
+response = issue.issue_xml(xml_content, headers=headers, version=ResponseVersion.V4)
+print(response.get_data())
+print(response.get_status())
 ```
 
 </details>
@@ -1832,16 +2398,14 @@ issue = IssueV4("http://services.test.sw.com.mx","T2lYQ0t4L0R....ReplaceForRealT
 from Issue.IssueV4 import IssueV4
 from Utils.response_version import ResponseVersion
 
-            issue = IssueV4("http://services.test.sw.com.mx", "T2lYQ0t4L0R....ReplaceForRealToken")
-            json_content =  open_file("cfdi.json")
-            
-            headers = {
-                  "customid": "ISS-25-369"
-            }
-            
-            response = issue.issue_json(json_content, headers=headers, version=ResponseVersion.V1)
-            print(response.get_data())
-            print(response.get_status())
+issue = IssueV4("https://services.test.sw.com.mx", "T2lYQ0t4L0R....ReplaceForRealToken")
+json_content = open("cfdi.json", "r", encoding='utf-8').read()
+headers = {
+    "customid": "ISS-25-369"
+}
+response = issue.issue_json(json_content, headers=headers, version=ResponseVersion.V1)
+print(response.get_data())
+print(response.get_status())
 ```
 </details>
 
@@ -1859,13 +2423,14 @@ Existen varias versiones de respuesta a este método, las cuales puede consultar
 ```py
 from Stamp.StampV4 import StampV4
 from Utils.response_version import ResponseVersion
+
 #Creamos funcion para abrir nuestro archivo
- xml_content = open("prueba.xml", "r", encoding='utf-8').read()
+xml_content = open("prueba.xml", "r", encoding='utf-8').read()
 #Creamos instancia y pasamos parametros
- stamp = StampV4("http://services.test.sw.com.mx",None, "user", "password")
- headers = {
-                 "pdf": "true"
-           }
+stamp = StampV4("https://services.test.sw.com.mx",None, "user", "password")
+headers = {
+    "extra": "pdf"
+}
 response = stamp.stamp(xml_content, headers=headers, version=ResponseVersion.V2)
 print(response.get_data())
 print(response.get_status())
@@ -1879,16 +2444,15 @@ print(response.get_status())
 ```py
 from Issue.IssueV4 import IssueV4
 from Utils.response_version import ResponseVersion
-issue = IssueV4("http://services.test.sw.com.mx","T2lYQ0t4L0R....ReplaceForRealToken")
-             xml_content = open("prueba.xml", "r", encoding='utf-8').read()
-            
-           headers = {
-                   "pdf": "true"
-            }
-            
-            response = issue.issue_xml(xml_content, headers=headers, version=ResponseVersion.V4)
-            print(response.get_data())
-            print(response.get_status())
+
+issue = IssueV4("https://services.test.sw.com.mx","T2lYQ0t4L0R....ReplaceForRealToken")
+xml_content = open("prueba.xml", "r", encoding='utf-8').read()
+headers = {
+    "extra": "pdf"
+}
+response = issue.issue_xml(xml_content, headers=headers, version=ResponseVersion.V4)
+print(response.get_data())
+print(response.get_status())
 ```
 
 </details>
@@ -1902,16 +2466,14 @@ issue = IssueV4("http://services.test.sw.com.mx","T2lYQ0t4L0R....ReplaceForRealT
 from Issue.IssueV4 import IssueV4
 from Utils.response_version import ResponseVersion
 
-            issue = IssueV4("http://services.test.sw.com.mx", "T2lYQ0t4L0R....ReplaceForRealToken")
-            json_content =  open_file("cfdi.json")
-            
-            headers = {
-                  "pdf": "true"
-            }
-            
-            response = issue.issue_json(json_content, headers=headers, version=ResponseVersion.V4)
-            print(response.get_data())
-            print(response.get_status())
+issue = IssueV4("https://services.test.sw.com.mx", "T2lYQ0t4L0R....ReplaceForRealToken")
+json_content = open("cfdi.json", "r", encoding='utf-8').read()
+headers = {
+    "extra": "pdf"
+}
+response = issue.issue_json(json_content, headers=headers, version=ResponseVersion.V4)
+print(response.get_data())
+print(response.get_status())
 ```
 </details>
 
@@ -1934,30 +2496,30 @@ Este método recibe los siguientes parámetros:
 
 **Ejemplo de consumo de la librería para timbrar XML de retenciones en formato string utilizando token**
 ```python
-from Stamp_Retentions.Stamp_Retentions import Stamp_Retentions
+from StampRetentions.StampRetentions import StampRetentions
 
 xml = open("retencion.xml", "r", encoding='utf-8').read()
-stamp_ret = Stamp_Retentions("http://services.test.sw.com.mx", "T2lYQ0t4L0R....ReplaceForRealToken")
-response = stamp_ret.stamp_retetions_v3(xml)
+stamp_ret = StampRetentions("http://services.test.sw.com.mx", "T2lYQ0t4L0R....ReplaceForRealToken")
+response = stamp_ret.stamp_retentions_v3(xml)
 
 if response.get_status() == "error":
     print(response.get_message())
-    print(response.get_messageDetail())
+    print(response.get_message_detail())
 else:
     print(response.get_data())
 ```
 
 **Ejemplo de consumo de la librería para timbrar XML de retenciones usando usuario y contraseña**
 ```python
-from Stamp_Retentions.Stamp_Retentions import Stamp_Retentions
+from StampRetentions.StampRetentions import StampRetentions
 
 xml = open("retencion.xml", "r", encoding='utf-8').read()
-stamp_ret = Stamp_Retentions("http://services.test.sw.com.mx", None, "user", "password")
-response = stamp_ret.stamp_retetions_v3(xml)
+stamp_ret = StampRetentions("http://services.test.sw.com.mx", None, "user", "password")
+response = stamp_ret.stamp_retentions_v3(xml)
 
 if response.get_status() == "error":
     print(response.get_message())
-    print(response.get_messageDetail())
+    print(response.get_message_detail())
 else:
     print(response.get_data())
 ```
@@ -1982,15 +2544,15 @@ Este método recibe los siguientes parametros:
 **Ejemplo de consumo de la libreria para cancelar retención por XML mediante token**
 ```py
 #Importar la clase al comienzo de nuestro programa de la siguiente manera
-from Cancelation_Retentions.CancelationRetentions import CancelationRetentions
+from CancelationRetentions.CancelationRetentions import CancelationRetentions
 
 xml_cancel = open("cancelacion_retencion.xml", "r", encoding='utf-8').read()
 objCancel = CancelationRetentions("http://services.test.sw.com.mx", "T2lYQ0t4L0R....ReplaceForRealToken")
-objResponseCancel = objCancel.CancelaUno(xml_cancel)
+objResponseCancel = objCancel.cancel_xml(xml_cancel)
 
 if objResponseCancel.get_status() == "error":
 	print(objResponseCancel.get_message())
-	print(objResponseCancel.get_messageDetail())
+	print(objResponseCancel.get_message_detail())
 else:
 	print(objResponseCancel.get_data())
 ```
@@ -2017,18 +2579,18 @@ Este método recibe los siguientes parametros:
 **Ejemplo de consumo de la libreria para cancelar retención con CSD con motivo de cancelación 02 sin relación a documento mediante token**
 ```py
 #Importar la clase al comienzo de nuestro programa de la siguiente manera
-from Cancelation_Retentions.CancelationRetentions import CancelationRetentions
+from CancelationRetentions.CancelationRetentions import CancelationRetentions
 
 #Datos
 uuid = "8D93A20F-E9EF-42CA-A2B9-2986A352DCEC"
 motivo = "02"
 foliosustitucion = ""
 objCancel = CancelationRetentions("http://services.test.sw.com.mx", "T2lYQ0t4L0R....ReplaceForRealToken")
-objResponseCancelCSD = objCancel.CancelaUnoCSD(uuid, rfc, b64cert, b64key, cPassword, motivo, foliosustitucion)
+objResponseCancelCSD = objCancel.cancel_csd(uuid, rfc, b64cert, b64key, cPassword, motivo, foliosustitucion)
 
 if objResponseCancelCSD.get_status() == "error":
 	print(objResponseCancelCSD.get_message())
-	print(objResponseCancelCSD.get_messageDetail())
+	print(objResponseCancelCSD.get_message_detail())
 else:
 	print(objResponseCancelCSD.get_data())
 ```
@@ -2054,17 +2616,17 @@ Este método recibe los siguientes parametros:
 **Ejemplo de consumo de la libreria para cancelar retención con PFX con motivo de cancelación 02 sin relación a documento mediante token**
 ```py
 #Importar la clase al comienzo de nuestro programa de la siguiente manera
-from Cancelation_Retentions.CancelationRetentions import CancelationRetentions
+from CancelationRetentions.CancelationRetentions import CancelationRetentions
 
 uuid = "8D93A20F-E9EF-42CA-A2B9-2986A352DCEC"
 motivo = "02"
 foliosustitucion = ""
 objCancel = CancelationRetentions("http://services.test.sw.com.mx", "T2lYQ0t4L0R....ReplaceForRealToken")
-objResponseCancelPfx = objCancel.CancelaUnoPFX(uuid, rfc, b64Pfx, cPassword, motivo, foliosustitucion)
+objResponseCancelPfx = objCancel.cancel_pfx(uuid, rfc, b64Pfx, cPassword, motivo, foliosustitucion)
 
 if objResponseCancelPfx.get_status() == "error":
 	print(objResponseCancelPfx.get_message())
-	print(objResponseCancelPfx.get_messageDetail())
+	print(objResponseCancelPfx.get_message_detail())
 else:
 	print(objResponseCancelPfx.get_data())
 ```

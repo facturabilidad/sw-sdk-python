@@ -1,47 +1,59 @@
 import unittest
 import os
-import json
 import sys
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
 sys.path.append(PROJECT_ROOT)
 
+from Test.base import SdkTestCase
 from Validate.Validate import Validate
 
-class TestValidate(unittest.TestCase):
-    expected = "success"
-    @staticmethod
-    def open_file(pathFile):
-        out = open(pathFile, "r", encoding='ansi', errors='ignore').read()
-        return out
-    
+class TestValidate(SdkTestCase):
+
     def testValidateXml_Auth(self):
-        validate = Validate("http://services.test.sw.com.mx", None, os.environ["SDKTEST_USER"], os.environ["SDKTEST_PASSWORD"])
-        response = validate.ValidateXml(TestValidate.open_file("Test/resources/xml40Stamp.xml"))
+        validate = Validate(self.url, None, self.user, self.password)
+        response = validate.validate_xml(TestValidate.open_file("Test/resources/xml40Stamp.xml"))
         self.assertTrue(self.expected == response.get_status())
         self.assertTrue("Vigente"== response.response['statusSat'])
-        self.assertTrue("S - Comprobante obtenido satisfactoriamente"== response.response['statusCodeSat'])
+        self.assertEqual("S", response.response['statusCodeSat'].split(" - ")[0])
         
     def testValidateXml(self):
-        validate = Validate("http://services.test.sw.com.mx", os.environ["SDKTEST_TOKEN"])
-        response = validate.ValidateXml(TestValidate.open_file("Test/resources/xml40Stamp.xml"))
+        validate = Validate(self.url, self.token)
+        response = validate.validate_xml(TestValidate.open_file("Test/resources/xml40Stamp.xml"))
         self.assertTrue(self.expected == response.get_status())
         self.assertTrue("Vigente"== response.response['statusSat'])
-        self.assertTrue("S - Comprobante obtenido satisfactoriamente"== response.response['statusCodeSat'])
+        self.assertEqual("S", response.response['statusCodeSat'].split(" - ")[0])
         
     def testValidateXml_WithStatus(self):
-        validate = Validate("http://services.test.sw.com.mx", os.environ["SDKTEST_TOKEN"])
-        response = validate.ValidateXml(TestValidate.open_file("Test/resources/xml40Stamp.xml"),True)
+        validate = Validate(self.url, self.token)
+        response = validate.validate_xml(TestValidate.open_file("Test/resources/xml40Stamp.xml"),True)
         self.assertTrue(self.expected == response.get_status())
         self.assertTrue("Vigente"== response.response['statusSat'])
-        self.assertTrue("S - Comprobante obtenido satisfactoriamente"== response.response['statusCodeSat'])
+        #statusCodeSat llega como "<código> - <texto>": el texto es del servicio, así que
+        #la prueba afirma únicamente el código.
+        self.assertEqual("S", response.response['statusCodeSat'].split(" - ")[0])
         
     def testValidateXml_WithoutStatus(self):
-        validate = Validate("http://services.test.sw.com.mx", os.environ["SDKTEST_TOKEN"])
-        response = validate.ValidateXml(TestValidate.open_file("Test/resources/xml40Stamp.xml"),False)
+        validate = Validate(self.url, self.token)
+        response = validate.validate_xml(TestValidate.open_file("Test/resources/xml40Stamp.xml"),False)
         self.assertTrue(self.expected == response.get_status())
         self.assertTrue("No Aplica"== response.response['statusSat'])
         self.assertTrue("No Aplica"== response.response['statusCodeSat'])
 
-suite = unittest.TestLoader().loadTestsFromTestCase(TestValidate)
-unittest.TextTestRunner(verbosity=2).run(suite)
+    #UT de Error
+    def testValidateXml_invalidXml(self):
+        validate = Validate(self.url, self.token)
+        response = validate.validate_xml("<xml>no es un cfdi</xml>")
+        self.assertTrue(self.expectedError == response.get_status())
+        self.assertIsNotNone(response.get_message())
+
+    def testValidateXml_invalidToken(self):
+        validate = Validate(self.url, "token-invalido")
+        response = validate.validate_xml(TestValidate.open_file("Test/resources/xml40Stamp.xml"))
+        self.assertTrue(self.expectedError == response.get_status())
+        self.assertIsNotNone(response.get_message())
+
+if __name__ == '__main__':
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestValidate)
+    result = unittest.TextTestRunner(verbosity=2).run(suite)
+    sys.exit(not result.wasSuccessful())
